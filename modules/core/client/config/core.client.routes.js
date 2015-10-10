@@ -14,11 +14,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         templateUrl: 'modules/core/views/home.client.view.html'
       })
       .state('Brand', {
-        url: '/Brand'
+        url: '/Brand',
         templateUrl: 'modules/core/views/Brand.client.view.html'
       })
       .state('SKU', {
-        url: '/SKU'
+        url: '/SKU',
         templateUrl: 'modules/core/views/SKU.client.view.html'
       })
       .state('not-found', {
