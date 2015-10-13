@@ -13,6 +13,14 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         url: '/',
         templateUrl: 'modules/core/views/home.client.view.html'
       })
+      .state('Brand', {
+        url: '/Brand',
+        templateUrl: 'modules/core/views/Brand.client.view.html'
+      })
+      .state('SKU', {
+        url: '/SKU',
+        templateUrl: 'modules/core/views/SKU.client.view.html'
+      })
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/views/404.client.view.html'
