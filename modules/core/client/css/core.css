@@ -47,7 +47,13 @@ table tr:nth-child(even) {
 }
 
 #table-scroll {
-  height:150px;
+  height:250px;
+  overflow:auto;  
+  margin-top:20px;
+}
+
+#big-table-scroll {
+  height:500px;
   overflow:auto;  
   margin-top:20px;
 }
