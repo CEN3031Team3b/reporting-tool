@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication',
+angular.module('core').controller('BrandController', ['$scope', 'Authentication',
   function ($scope, Authentication) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
@@ -14,14 +14,4 @@ angular.module('core').controller('customersCtrl', function($scope, $http) {
 });
 
 
-angular.module('core').controller('TabController', function(){
-    this.tab = 1;
 
-    this.setTab = function(newValue){
-      this.tab = newValue;
-    };
-
-    this.isSet = function(tabName){
-      return this.tab === tabName;
-    };
-  });

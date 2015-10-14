@@ -6,7 +6,6 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a data-ui-sref="home" class="navbar-brand">MEAN.JS</a>
   </div>
   <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
     <ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
@@ -20,7 +19,7 @@
         <a ng-switch-default data-ui-sref="{{item.state}}" data-ng-bind="item.title"></a>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
+    <!--<ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
       <li data-ui-sref-active="active">
         <a data-ui-sref="authentication.signup">Sign Up</a>
       </li>
@@ -28,7 +27,25 @@
       <li data-ui-sref-active="active">
         <a data-ui-sref="authentication.signin">Sign In</a>
       </li>
-    </ul>
+    </ul>-->
+    <ul class="nav navbar-nav navbar-left" data-ng-show="true">
+      <li class="dropdown" dropdown>
+        <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
+        Navigation<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li data-ui-sref-active="active">
+            <a data-ui-sref="home">Dashboard</a>
+          </li>
+          <li data-ui-sref-active="active">
+            <a data-ui-sref="SKU">SKU Reports</a>
+          </li>
+          <li data-ui-sref-active="active">
+            <a data-ui-sref="Brand">Brand Reports</a>
+          </li>
+        </ul>
+      </li>
+    </ul>    
     <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
       <li class="dropdown" dropdown>
         <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
