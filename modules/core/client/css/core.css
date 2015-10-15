@@ -40,10 +40,10 @@ table, th , td  {
   padding: 5px;
 }
 table tr:nth-child(odd) {
-  background-color: #f1f1f1;
+  background-color: lightblue;
 }
 table tr:nth-child(even) {
-  background-color: #ffffff;
+  background-color: $ffffff;
 }
 
 #table-scroll {
@@ -56,4 +56,18 @@ table tr:nth-child(even) {
   height:500px;
   overflow:auto;  
   margin-top:20px;
+}
+
+#borderView {
+border: 3px solid;
+border-radius: 2px;
+}
+
+.col-xs-4>div {
+background-color:deepskyblue;
+border: 6px solid deepskyblue;
+border-radius: 5px;
+margin-top: 10px;
+margin-bottom: 10px;
+text-align:center;
 }
