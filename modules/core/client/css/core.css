@@ -34,40 +34,55 @@ a:hover .header-profile-image {
   padding-bottom: 11px !important;
 }
 
-table, th , td  {
+.table1 tr, .table1 td, .table1 th{
   border: 1px solid grey;
-  border-collapse: collapse;
   padding: 5px;
+
 }
-table tr:nth-child(odd) {
+.table1 tr:nth-child(odd) {
   background-color: lightblue;
 }
-table tr:nth-child(even) {
-  background-color: $ffffff;
+.table1 tr:nth-child(even) {
+  background-color: white;
 }
 
-#table-scroll {
-  height:250px;
+.table1 {
+  text-align:right;
+  border-collapse:collapse;
+}
+
+.table-scroll {
+  overflow:auto;  
+}
+
+.big-table-scroll {
   overflow:auto;  
   margin-top:20px;
 }
 
-#big-table-scroll {
-  height:500px;
-  overflow:auto;  
-  margin-top:20px;
-}
-
-#borderView {
+.borderView {
 border: 3px solid;
 border-radius: 2px;
 }
 
-.col-xs-4>div {
+.col-lg-6>div {
 background-color:deepskyblue;
 border: 6px solid deepskyblue;
+padding-top:0;
+padding-bottom:0;
 border-radius: 5px;
 margin-top: 10px;
 margin-bottom: 10px;
 text-align:center;
+}
+
+.table2 {
+  table-layout: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: deepskyblue;
+  text-align:center;
+}
+#table2Inside {
+  border: 10px solid white;
 }
