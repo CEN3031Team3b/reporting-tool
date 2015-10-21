@@ -21,6 +21,14 @@ angular.module('products').config(['$stateProvider',
         url: '/create',
         templateUrl: 'modules/products/views/create-product.client.view.html'
       })
+      .state('products.brand', {
+        url: '/brand',
+        templateUrl: 'modules/products/views/brand-products.client.view.html'
+      })
+      .state('products.sku', {
+        url: '/sku',
+        templateUrl: 'modules/products/views/sku-products.client.view.html'
+      })
       .state('products.view', {
         url: '/:productId',
         templateUrl: 'modules/products/views/view-product.client.view.html'

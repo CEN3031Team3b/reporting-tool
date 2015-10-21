@@ -1,0 +1,24 @@
+<section data-ng-controller="productsController">
+    <h4>Sku-Report</h4>
+    <div ng-app="myApp" ng-controller="productsController">
+        <div>
+            <table class="table1">
+                <tr style="font:bold">
+                    <th>#</th>
+                    <th>SKU</th>
+                    <th>QTY</th>
+                    <th>REV</th>
+
+                </tr>
+                <tr ng-repeat="x in products">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ x.sku }}</td> <!--put column values here-->
+                    <td>{{ x.quantity_purchased }}</td>
+                </tr>
+            </table>
+            <a data-ui-sref="SKU" align="bottom" align="middle">
+                <button type="button"> More </button>
+            </a>
+        </div>
+    </div>
+</section>

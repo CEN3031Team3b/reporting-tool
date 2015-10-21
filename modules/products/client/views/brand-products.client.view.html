@@ -1,7 +1,6 @@
-<body>
-<section data-ng-controller="BrandController">
+<section data-ng-controller="productsController">
     <h4>Brand-Report</h4>
-    <div ng-app="myApp" ng-controller="customersCtrl">
+    <div ng-app="myApp" ng-controller="productsController">
         <div class="big-table-scroll">
             <table class="table1">
                 <tr>
@@ -15,15 +14,13 @@
                     <th>Profit Margin</th>
                     <th>Product Margin</th>
                 </tr>
-                <tr ng-repeat="x in names">
+                <tr ng-repeat="x in products">
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ x.Name }}</td> <!--put column values here-->
-                    <td>{{ x.Country }}</td>
-                    <td>{{ x.City }}</td>
+                    <td>{{ x.sku }}</td> <!--put column values here-->
+             
                 </tr>
             </table>
             <h5 valign="bottom" align="middle"><button type="button">More</button></h5>
         </div>
     </div>
 </section>
-</body>
