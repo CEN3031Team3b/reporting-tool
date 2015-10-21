@@ -1,98 +1,106 @@
+<header>
+
+</header>
 <body>
     <section data-ng-controller="HomeController">
-        <div class="container-fluid">
-            <table class="table2" table-layout:fixed background-color:deepskybluetext-align:center>
-                <tr>
+        <div class="container-fluid" >
+            <table class="table2" background-color:deepskyblue text-align:center>
+                <tr >
                     <td id="table2Inside">
-                        <div class="container-fluid">
-                            <div style="padding:35px"></div>
+                        <div style="padding:2px"></div>
+                        <div class="container-fluid dashboardBox">
                             <section>
                                 <h2>Revenue</h2>
                                 <h4>$1,000,000</h4>
                             </section>
-                            <div style="padding:35px"></div>
                         </div>
+                        <div style="padding:2px"></div>
                     </td>
                     <td id="table2Inside">
-                        <div>
+                        <div style="padding:2px"></div>
+                        <div class="container-fluid dashboardBox">
                             <h2>Return Rate</h2>
                             <h4>135% </h4>
                         </div>
+                        <div style="padding:2px"></div>
                     </td>
                 </tr>
                 <tr>
-                    <td id="table2Inside">
-                            <div class="container-fluid">
-                                <div style="padding:2px"></div>
-                                <section class="tab" ng-controller="TabController as tab">
-                                    <ul class="nav nav-pills">
-                                        <li ng-class="{ active: tab.isSet(1) }">
-                                            <a href ng-click="tab.setTab(1)">SKU</a>
-                                        </li>
-                                        <li ng-class="{ active: tab.isSet(2) }">
-                                            <a href ng-click="tab.setTab(2)">BRAND</a>
-                                        </li>
-                                    </ul>
-                                    <div ng-show="tab.isSet(1)">
-                                        <h4>Sku-Report</h4>
-                                        <div ng-app="myApp" ng-controller="customersCtrl">
-                                            <div>
-                                                <table class="table1">
-                                                    <tr style="font:bold">
-                                                        <th>#</th>
-                                                        <th>SKU</th>
-                                                        <th>QTY</th>
-                                                        <th>REV</th>
+                    <td id="table2Inside" height="400px">
+                        <div style="padding:2px"></div>
+                        <div class="container-fluid dashboardBox">
+                            <section class="tab" ng-controller="TabController as tab">
+                                <ul class="nav nav-pills">
+                                    <li ng-class="{ active: tab.isSet(1) }">
+                                        <a href ng-click="tab.setTab(1)">SKU</a>
+                                    </li>
+                                    <li ng-class="{ active: tab.isSet(2) }">
+                                        <a href ng-click="tab.setTab(2)">BRAND</a>
+                                    </li>
+                                </ul>
+                                <div ng-show="tab.isSet(1)">
+                                    <h4>Sku-Report</h4>
+                                    <div ng-app="myApp" ng-controller="customersCtrl">
+                                        <div>
+                                            <table class="table1">
+                                                <tr style="font:bold">
+                                                    <th>#</th>
+                                                    <th>SKU</th>
+                                                    <th>QTY</th>
+                                                    <th>REV</th>
 
-                                                    </tr>
-                                                    <tr ng-repeat="x in names" n>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td>{{ x.Name }}</td> <!--put column values here-->
-                                                        <td>{{ x.Country }}</td>
-                                                        <td>{{ x.City }}</td>
-                                                    </tr>
-                                                </table>
-                                                <a data-ui-sref="SKU" align="bottom" align="middle">
-                                                    <button type="button"> More </button>
-                                                </a>
-                                            </div>
+                                                </tr>
+                                                <tr ng-repeat="x in names" n>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ x.Name }}</td> <!--put column values here-->
+                                                    <td>{{ x.Country }}</td>
+                                                    <td>{{ x.City }}</td>
+                                                </tr>
+                                            </table>
+                                            <a data-ui-sref="SKU" align="bottom" align="middle">
+                                                <button type="button"> More </button>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div ng-show="tab.isSet(2)">
-                                        <h4>Brand-Report</h4>
-                                        <div ng-app="myApp" ng-controller="customersCtrl">
-                                            <div>
-                                                <table class="table1">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>BRAND</th>
-                                                        <th>QTY</th>
-                                                        <th>REV</th>
+                                </div>
+                                <div ng-show="tab.isSet(2)">
+                                    <h4>Brand-Report</h4>
+                                    <div ng-app="myApp" ng-controller="customersCtrl">
+                                        <div>
+                                            <table class="table1 tablesorter">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>BRAND</th>
+                                                    <th>QTY</th>
+                                                    <th>REV</th>
 
-                                                    </tr>
-                                                    <tr ng-repeat="x in names">
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td>{{ x.Name }}</td> <!--put column values here-->
-                                                        <td>{{ x.Country }}</td>
-                                                        <td>{{ x.City }}</td>
-                                                    </tr>
-                                                </table>
-                                                <a data-ui-sref="Brand" align="bottom" align="middle">
-                                                    <button type="button"> More </button>
-                                                </a>
-                                            </div>
+                                                </tr>
+                                                <tr ng-repeat="x in names">
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ x.Name }}</td> <!--put column values here-->
+                                                    <td>{{ x.Country }}</td>
+                                                    <td>{{ x.City }}</td>
+                                                </tr>
+                                            </table>
+                                            <a data-ui-sref="Brand" align="bottom" align="middle">
+                                                <button type="button"> More </button>
+                                            </a>
                                         </div>
                                     </div>
-                                    </section>
-                            </div>
-                        
+                                </div>
+                            </section>
+                        </div>
+                        <div style="padding:2px"></div>
                     </td>
 
                     <td id="table2Inside">
-                        <div>
-                            <h2>Inventory</h2>
-                            <h4>DATA</h4>
-                        </div>
+                        <div style="padding:2px"></div>
+                            <div class="container-fluid dashboardBox">
+                                <h2>Inventory</h2>
+                                <h4>DATA</h4>
+                            </div>
+                        <div style="padding:2px"></div>
+
                     </td>
                 </tr>
             </table>

@@ -85,4 +85,12 @@ text-align:center;
 }
 #table2Inside {
   border: 10px solid white;
+  height: 400px;
+  width: 400px;
+  max-width: 400px;
+  max-height: 400px;
+}
+.dashboardBox {
+  overflow: auto;
+  max-height: 396px;
 }
