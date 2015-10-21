@@ -1,4 +1,4 @@
-<section data-ng-controller="productsController">
+<section data-ng-controller="productsController" data-ng-init="find()">
     <h4>Brand-Report</h4>
     <div ng-app="myApp" ng-controller="productsController">
         <div class="big-table-scroll">
@@ -17,7 +17,7 @@
                 <tr ng-repeat="x in products">
                     <td>{{ $index + 1 }}</td>
                     <td>{{ x.sku }}</td> <!--put column values here-->
-             
+
                 </tr>
             </table>
             <h5 valign="bottom" align="middle"><button type="button">More</button></h5>
