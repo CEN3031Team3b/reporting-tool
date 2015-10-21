@@ -1,5 +1,17 @@
 'use strict';
 
+angular.module('products').controller('TabController', function(){
+    this.tab = 1;
+
+    this.setTab = function(newValue){
+      this.tab = newValue;
+    };
+
+    this.isSet = function(tabName){
+      return this.tab === tabName;
+    };
+  });
+
 // products controller
 angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products',
   function ($scope, $stateParams, $location, Authentication, products) {
