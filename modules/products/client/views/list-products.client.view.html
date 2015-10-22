@@ -46,14 +46,14 @@
                                                     <th>REV</th>
 
                                                 </tr>
-                                                <tr ng-repeat="x in products | limitTo:totalDisplayed">
+                                                <tr ng-repeat="x in products | limitTo:10">
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ x.sku }}</td> <!--put column values here-->
                                                     <td>{{ x.quantity_purchased }}</td>
                                                 </tr>
                                             </table>
                                             <a data-ui-sref="products.sku" align="bottom" align="middle">
-                                                <button type="button"> More </button>
+                                                <button type="button"> Full Report </button>
                                             </a>
                                         </div>
                                     </div>
@@ -69,14 +69,14 @@
                                                     <th>REV</th>
 
                                                 </tr>
-                                                <tr ng-repeat="x in products | limitTo:totalDisplayed">
+                                                <tr ng-repeat="x in products | limitTo:10">
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ x.sku }}</td> <!--put column values here-->
                                                     <td>{{ x.quantity_purchased }}</td>
                                                 </tr>
                                             </table>
                                             <a data-ui-sref="products.brand" align="bottom" align="middle">
-                                                <button type="button"> More </button>
+                                                <button type="button"> Full Report </button>
                                             </a>
                                         </div>
                                     </div>
