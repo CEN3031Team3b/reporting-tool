@@ -46,7 +46,7 @@
                                                     <th>REV</th>
 
                                                 </tr>
-                                                <tr ng-repeat="x in products">
+                                                <tr ng-repeat="x in products | limitTo:totalDisplayed">
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ x.sku }}</td> <!--put column values here-->
                                                     <td>{{ x.quantity_purchased }}</td>
@@ -69,7 +69,7 @@
                                                     <th>REV</th>
 
                                                 </tr>
-                                                <tr ng-repeat="x in products">
+                                                <tr ng-repeat="x in products | limitTo:totalDisplayed">
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ x.sku }}</td> <!--put column values here-->
                                                     <td>{{ x.quantity_purchased }}</td>

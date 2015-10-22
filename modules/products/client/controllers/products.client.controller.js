@@ -65,6 +65,12 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       });
     };
 
+    $scope.totalDisplayed = 20;
+
+    $scope.loadMore = function () {
+      $scope.totalDisplayed += 20;  
+    };
+    
     // Find a list of products
     $scope.find = function () {
       $scope.products = products.query();

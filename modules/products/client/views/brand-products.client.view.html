@@ -14,13 +14,15 @@
                     <th>Profit Margin</th>
                     <th>Product Margin</th>
                 </tr>
-                <tr ng-repeat="x in products">
+                <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
                     <td>{{ x.sku }}</td> <!--put column values here-->
 
                 </tr>
             </table>
-            <h5 valign="bottom" align="middle"><button type="button">More</button></h5>
+            <h5 valign="bottom" align="middle">
+                <button class="btn" ng-click="loadMore()">Load more</button>
+            </h5>
         </div>
     </div>
 </section>
