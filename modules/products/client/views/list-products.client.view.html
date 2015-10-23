@@ -1,0 +1,101 @@
+<section data-ng-controller="productsController" data-ng-init="find()">
+  <body>
+        <div class="container-fluid">
+            <table class="table2" background-color:deepskyblue text-align:center>
+                <tr>
+                    <td id="table2Inside">
+                        <div style="padding:2px"></div>
+                        <div class="container-fluid dashboardBox">
+                            <section>
+                                <h2>Revenue</h2>
+                                <h4>$1,000,000</h4>
+                            </section>
+                        </div>
+                        <div style="padding:2px"></div>
+                    </td>
+                    <td id="table2Inside">
+                        <div style="padding:2px"></div>
+                        <div class="container-fluid dashboardBox">
+                            <h2>Return Rate</h2>
+                            <h4>135% </h4>
+                        </div>
+                        <div style="padding:2px"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="table2Inside" height="400px">
+                        <div style="padding:2px"></div>
+                        <div class="container-fluid dashboardBox">
+                            <section class="tab" ng-controller="TabController as tab">
+                                <ul class="nav nav-pills">
+                                    <li ng-class="{ active: tab.isSet(1) }">
+                                        <a href ng-click="tab.setTab(1)">SKU</a>
+                                    </li>
+                                    <li ng-class="{ active: tab.isSet(2) }">
+                                        <a href ng-click="tab.setTab(2)">BRAND</a>
+                                    </li>
+                                </ul>
+                                <div ng-show="tab.isSet(1)">
+                                    <div ng-app="myApp" ng-controller="productsController">
+                                        <div>
+                                            <table class="table1">
+                                                <tr style="font:bold">
+                                                    <th>#</th>
+                                                    <th>SKU</th>
+                                                    <th>QTY</th>
+                                                    <th>REV</th>
+
+                                                </tr>
+                                                <tr ng-repeat="x in products | limitTo:10">
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ x.sku }}</td> <!--put column values here-->
+                                                    <td>{{ x.quantity_purchased }}</td>
+                                                </tr>
+                                            </table>
+                                            <a data-ui-sref="products.sku" align="bottom" align="middle">
+                                                <button type="button"> Full Report </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="tab.isSet(2)">
+                                    <div ng-app="myApp" ng-controller="productsController">
+                                        <div>
+                                            <table class="table1">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>BRAND</th>
+                                                    <th>QTY</th>
+                                                    <th>REV</th>
+
+                                                </tr>
+                                                <tr ng-repeat="x in products | limitTo:10">
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ x.sku }}</td> <!--put column values here-->
+                                                    <td>{{ x.quantity_purchased }}</td>
+                                                </tr>
+                                            </table>
+                                            <a data-ui-sref="products.brand" align="bottom" align="middle">
+                                                <button type="button"> Full Report </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div style="padding:2px"></div>
+                    </td>
+
+                    <td id="table2Inside">
+                        <div style="padding:2px"></div>
+                        <div class="container-fluid dashboardBox">
+                            <h2>Inventory</h2>
+                            <h4>DATA</h4>
+                        </div>
+                        <div style="padding:2px"></div>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+</body>

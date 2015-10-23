@@ -1,113 +1,32 @@
-<body>
-    <section data-ng-controller="HomeController">
-        <div class="jumbotron text-center" style="background-color:#ffffff">
-            <br>
-            <div class="row">
-                <h1>
-                    Amazon Marketplace Reporting Tool
-                </h1>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-4">
-                    <div>
-                        <h2>Revenue</h2>
-                        <h4>$1,000,000</h4>
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div>
-                        <h2>Return Rate</h2>
-                        <h4>135% </h4>
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div>
-                        <h2>Inventory</h2>
-                        <h4>DATA</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body style="overflow: auto;">        
+    <div style="overflow:hidden;">
+    	<header class="header" id="header">
+    		<div class="container">
+    			<div>
+    				<img src="https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/787/s300/10423817-585154291587884-2436342222591743854-n.png" height="20%" width="20%">
+    			</div>
+    			<h1 class="make-it-bright">Amazon Product Reporting Tool</h1>
+    		</div>
+    	</header>
 
-        <!--Spacing between report views and above thingies-->
-        <div style="padding:20px"></div>
-        <div>
-            <div class="container-fluid" id="borderView">
-                <div style="padding:2px"></div>
-                <section class="tab" ng-controller="TabController as tab">
-                    <ul class="nav nav-pills">
-                        <li ng-class="{ active: tab.isSet(1) }">
-                            <a href ng-click="tab.setTab(1)">SKU</a>
-                        </li>
-                        <li ng-class="{ active: tab.isSet(2) }">
-                            <a href ng-click="tab.setTab(2)">BRAND</a>
-                        </li>
-                    </ul>
-                    <div ng-show="tab.isSet(1)">
-                        <h4>Sku-Report</h4>
-                        <div ng-app="myApp" ng-controller="customersCtrl">
-                            <div id="table-scroll">
-                                <table>
-                                    <tr style="font:bold">
-                                        <th>#</th>
-                                        <th>SKU</th>
-                                        <th>QTY</th>
-                                        <th>REV</th>
-                                        <th>FBA $</th>
-                                        <th>FBA %</th>
-                                        <th>Commission</th>
-                                        <th>Profit Margin</th>
-                                        <th>Product Margin</th>
-                                    </tr>
-                                    <tr ng-repeat="x in names" >
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ x.Name }}</td> <!--put column values here-->
-                                        <td>{{ x.Country }}</td>
-                                        <td>{{ x.City }}</td>
-                                    </tr>
-                                </table>
-                                <a data-ui-sref="SKU"
-                                   valign="bottom" align="middle">
-                                    <button type="button"> More </button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div ng-show="tab.isSet(2)" id="borderView">
-                        <h4>Brand-Report</h4>
-                        <div ng-app="myApp" ng-controller="customersCtrl">
-                            <div id="table-scroll">
-                                <table>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>BRAND</th>
-                                        <th>QTY</th>
-                                        <th>REV</th>
-                                        <th>FBA $</th>
-                                        <th>FBA %</th>
-                                        <th>Commission</th>
-                                        <th>Profit Margin</th>
-                                        <th>Product Margin</th>
-                                    </tr>
-                                    <tr ng-repeat="x in names">
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ x.Name }}</td> <!--put column values here-->
-                                        <td>{{ x.Country }}</td>
-                                        <td>{{ x.City }}</td>
-                                    </tr>
-                                </table>
-                                <a data-ui-sref="Brand"
-                                   valign="bottom" align="middle">
-                                    <button type="button"> More </button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-    </section>
+    	<!--here we should put a brief summary or samples of our app, so make this the learn more section-->
+    	<section>
+    		<h1>preview stuff(delete me)</h1>
+    	</section>
+
+    	<!--here we will put the contact information and contact form-->
+    	<section class="business-talk">
+    		<div class="container" id="contact">
+    			<h2 class="make-it-bright">Let Us Show You How We Can Make Your Life Easier</h2>
+    		</div>
+    	</section>
+    	<h1>contact stuff</h1>
+
+
+    	<div class="container">
+    		<div>
+    			<img src="https://www.cise.ufl.edu/sites/default/files/logo-ufcise-clear-4.png" align="right">
+    		</div>
+    	</div>
     </div>
-
-    </section>
 </body>

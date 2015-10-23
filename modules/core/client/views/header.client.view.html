@@ -8,6 +8,11 @@
     </button>
   </div>
   <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+    <ul class="nav navbar-nav navbar-left" data-ng-show="true">
+      <li data-ui-sref-active="active">
+        <a data-ui-sref="home">Home</a>
+      </li>
+    </ul> 
     <ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
       <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" data-ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
         <a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
@@ -19,33 +24,15 @@
         <a ng-switch-default data-ui-sref="{{item.state}}" data-ng-bind="item.title"></a>
       </li>
     </ul>
-    <!--<ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
-      <li data-ui-sref-active="active">
+    <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
+      <!--<li data-ui-sref-active="active">
         <a data-ui-sref="authentication.signup">Sign Up</a>
-      </li>
+      </li>-->
       <li class="divider-vertical"></li>
       <li data-ui-sref-active="active">
         <a data-ui-sref="authentication.signin">Sign In</a>
       </li>
-    </ul>-->
-    <ul class="nav navbar-nav navbar-left" data-ng-show="true">
-      <li class="dropdown" dropdown>
-        <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
-        Navigation<span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu">
-          <li data-ui-sref-active="active">
-            <a data-ui-sref="home">Dashboard</a>
-          </li>
-          <li data-ui-sref-active="active">
-            <a data-ui-sref="SKU">SKU Reports</a>
-          </li>
-          <li data-ui-sref-active="active">
-            <a data-ui-sref="Brand">Brand Reports</a>
-          </li>
-        </ul>
-      </li>
-    </ul>    
+    </ul>   
     <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
       <li class="dropdown" dropdown>
         <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
@@ -63,7 +50,7 @@
             <a data-ui-sref="settings.password">Change Password</a>
           </li>
           <li data-ui-sref-active="active">
-            <a data-ui-sref="settings.accounts">Manage Social Accounts</a>
+            <a data-ui-sref="settings.accounts">Manage Accounts</a>
           </li>
           <li class="divider"></li>
           <li>

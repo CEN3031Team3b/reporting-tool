@@ -1,0 +1,28 @@
+<section data-ng-controller="productsController" data-ng-init="find()">
+    <h4>Brand-Report</h4>
+    <div ng-app="myApp" ng-controller="productsController">
+        <div class="big-table-scroll">
+            <table class="table1">
+                <tr>
+                    <th>#</th>
+                    <th>BRAND</th>
+                    <th>QTY</th>
+                    <th>REV</th>
+                    <th>FBA $</th>
+                    <th>FBA %</th>
+                    <th>Commission</th>
+                    <th>Profit Margin</th>
+                    <th>Product Margin</th>
+                </tr>
+                <tr ng-repeat="x in products | limitTo:totalDisplayed">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ x.sku }}</td> <!--put column values here-->
+
+                </tr>
+            </table>
+            <h5 valign="bottom" align="middle">
+                <button class="btn" ng-click="loadMore()">Load more</button>
+            </h5>
+        </div>
+    </div>
+</section>
