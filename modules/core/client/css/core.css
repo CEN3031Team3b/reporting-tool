@@ -1,6 +1,23 @@
 .content {
   margin-top: 50px;
 }
+
+.header {
+    text-align: center;
+    background: url("../img/brand/pw_maze_black_2X.png") left top repeat;
+    padding: 110px 0;
+}
+
+.make-it-bright{
+  color: lightblue;
+}
+
+.business-talk{
+    background: url(http://gainesvilledevacademy.com/img/section-bg2.jpg) top center no-repeat;
+    background-size: cover;
+    padding: 60px 0 10px;
+    text-align: center;
+}
 .undecorated-link:hover {
   text-decoration: none;
 }
