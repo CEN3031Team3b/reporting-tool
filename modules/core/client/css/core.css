@@ -18,9 +18,20 @@
     padding: 60px 0 10px;
     text-align: center;
 }
+
+.contact-info-box h3 i {
+    font-style: normal;
+    font-size: 18px;
+    color: #222222;
+    font-family: 'FontAwesome';
+    font-weight: normal;
+    margin-right: 7px;
+}
+
 .undecorated-link:hover {
   text-decoration: none;
 }
+
 [ng\:cloak],
 [ng-cloak],
 [data-ng-cloak],
@@ -29,12 +40,15 @@
 .x-ng-cloak {
   display: none !important;
 }
+
 .ng-invalid.ng-dirty {
   border-color: #FA787E;
 }
+
 .ng-valid.ng-dirty {
   border-color: #78FA89;
 }
+
 .header-profile-image {
   opacity: 0.8;
   height: 28px;
@@ -42,10 +56,12 @@
   border-radius: 50%;
   margin-right: 5px;
 }
+
 .open .header-profile-image,
 a:hover .header-profile-image {
   opacity: 1;
 }
+
 .user-header-dropdown-toggle {
   padding-top: 11px !important;
   padding-bottom: 11px !important;
