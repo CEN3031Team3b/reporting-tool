@@ -1,7 +1,13 @@
+<link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
 <section data-ng-controller="productsController" data-ng-init="find()">
     <h4>Sku-Report</h4>
+    <div ng-show="loadInfo" align="middle">
+        <div class="throbber-loader">
+            Loading…
+        </div>
+    </div>
     <div ng-app="myApp" ng-controller="productsController">
-        <div>
+        <div class="big-table-scroll">
             <table class="table1">
                 <tr style="font:bold">
                     <th>#</th>

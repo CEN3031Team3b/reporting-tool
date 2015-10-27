@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
 <section data-ng-controller="productsController" data-ng-init="find()">
   <body>
       <div class="container-fluid">
@@ -31,6 +32,11 @@
                                        <a href ng-click="tab.setTab(2)">BRAND</a>
                                    </li>
                                </ul>
+                              <div ng-show="loadInfo" align="middle">
+                                  <div class="throbber-loader">
+                                    Loading…
+                                  </div>
+                              </div>
                                <div ng-show="tab.isSet(1)">
                                    <div ng-app="myApp" ng-controller="productsController">
                                        <div>
