@@ -24,11 +24,17 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ x.sku }}</td> <!--put column values here-->
                     <td>{{ x.quantity_purchased }}</td>
+                    <td>{{ x.price }}</td>
+                    <td>{{ x.fba }}</td>
+                    <td>{{ x.fba_per }}</td>
+                    <td>{{ x.commission }}</td>
+                    <td>{{ x.profit_margin }}</td>
+                    <td>{{ x.prod_margin }}</td>
                 </tr>
             </table>
-            <a data-ui-sref="SKU" align="bottom" align="middle">
-                <button class="btn" ng-click="loadMore()">Load more</button>
-            </a>
+            <h5 valign="bottom" align="middle">
+                <button class="btn-info active" ng-click="loadMore()" align="middle">Load more</button>
+            </h5>
         </div>
     </div>
 </section>
