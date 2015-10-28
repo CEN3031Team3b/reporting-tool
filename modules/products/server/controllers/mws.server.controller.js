@@ -1,7 +1,9 @@
 'use strict';
 
+var config = require('../../../../config/env/local');
+
 var MWS = require('mws-sdk'),
-    client = new MWS.Client('accessKeyId', 'secretAccessKey', 'merchantId', {}),
+    client = new MWS.Client(config.accessKeyId, config.secretAccessKey, config.merchantId, {}),
     marketPlaceId = 'ATVPDKIKX0DER';
 
 
