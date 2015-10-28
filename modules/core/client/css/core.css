@@ -8,6 +8,12 @@
     padding: 110px 0;
 }
 
+.cool-background{
+    text-align: center;
+    background: url("../img/brand/pw_maze_black_2X.png") left top repeat;
+    padding: 20px 0;
+}
+
 .make-it-bright{
   color: lightblue;
 }
@@ -82,19 +88,12 @@ border: 3px solid;
 border-radius: 2px;
 }
 
-.col-lg-6>div {
-background-color:deepskyblue;
-border: 6px solid deepskyblue;
-padding-top:0;
-padding-bottom:0;
-border-radius: 5px;
-margin-top: 10px;
-margin-bottom: 10px;
-text-align:center;
+.col-xs-5>div {
+height: 400px;
 }
 
 .table2 {
-  table-layout: fixed;
+  table-layout: auto;
   width: 100%;
   height: 100%;
   background-color: deepskyblue;
@@ -105,9 +104,45 @@ text-align:center;
   height: 400px;
   width: 400px;
   max-width: 400px;
-  max-height: 400px;
+  max-height: 350px;
 }
-.dashboardBox {
+
+.auto-adjust{
   overflow: auto;
-  max-height: 396px;
+}
+
+.rectangle-box{
+    width: 50%;
+    resize: vertical;
+    overflow: auto;
+    background: url("../img/brand/pw_maze_black_2X.png") left top repeat;
+    border:3px solid white;
+}
+
+.contact-info-box{
+    font-style: normal;
+    font-size: 18px;
+    color: #222222;
+    font-family: 'FontAwesome';
+    font-weight: normal;
+    margin-right: 7px;
+}
+
+.rectangle-content{
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    color: black;
+}
+.rectangle-content div {
+   display: table;
+   width: 100%;
+   height: 100%;
+}
+.rectangle-content span {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    color: black;
 }

@@ -10,12 +10,6 @@ angular.module('products').run(['Menus',
       type: 'dropdown'
     });
 
-    // Add the dropdown list item
-    Menus.addSubMenuItem('topbar', 'products', {
-      title: 'Dashboard',
-      state: 'products.list'
-    });
-
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'products', {
       title: 'Sku Report',
