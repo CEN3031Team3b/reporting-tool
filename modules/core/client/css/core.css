@@ -8,6 +8,12 @@
     padding: 110px 0;
 }
 
+.cool-background{
+    text-align: center;
+    background: url("../img/brand/pw_maze_black_2X.png") left top repeat;
+    padding: 20px 0;
+}
+
 .make-it-bright{
   color: lightblue;
 }
@@ -101,28 +107,24 @@ height: 400px;
   max-height: 350px;
 }
 
+.auto-adjust{
+  overflow: auto;
+}
 
 .rectangle-box{
-    position: relative;
     width: 50%;
-    height: 380px;
-    overflow: hidden;
-    background: linear-gradient(tan, white, grey);;
+    resize: vertical;
+    overflow: auto;
+    background: url("../img/brand/pw_maze_black_2X.png") left top repeat;
     border:3px solid white;
 }
 
 .rectangle-content{
-    position:  absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     color: black;
-}
-.rectangle-box:before{
-    content: "";
-    display: block;
-    padding-top: 50%;
 }
 .rectangle-content div {
    display: table;
@@ -134,13 +136,4 @@ height: 400px;
     text-align: center;
     vertical-align: middle;
     color: black;
-}
-
-.rectangle-content{
-    position:  absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    color: white;
 }

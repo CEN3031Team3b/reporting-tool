@@ -1,30 +1,30 @@
 <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
 <section data-ng-controller="productsController" data-ng-init="find()">
   <body>
-      <div class="container-fluid">
-          <div class="rectangle-box col-xs-5"> 
+      <div class="container-fluid" class="auto-adjust">
+          <div class="container-fluid rectangle-box col-xs-5"> 
               <div class="rectangle-content">
                   <div><span>
                       
-                   <h2>Revenue</h2>
-                   <h4>$1,000,000</h4>
+                   <h2 class="make-it-bright">Revenue</h2>
+                   <h4 class="make-it-bright">$1,000,000</h4>
                    </span></div>
               </div>
           </div> 
-          <div class="rectangle-box col-xs-5">
+          <div class="container-fluid rectangle-box col-xs-5">
               <div class="rectangle-content">
                   <div><span>
-                      <h2>Return Rate</h2>
-                      <h4>135% </h4>
+                      <h2 class="make-it-bright">Return Rate</h2>
+                      <h4 class="make-it-bright">135% </h4>
                   </span></div>
               </div>
           </div> 
-          <div class="rectangle-box col-xs-5">
+          <div class="container-fluid rectangle-box col-xs-5">
               <div class="rectangle-content">
                   <div><span>
                       <div style="padding:2px"></div>
                            <section class="tab" ng-controller="TabController as tab" style="padding-left:5px">
-                               <ul class="nav nav-pills">
+                               <ul class="nav nav-pills" align="middle">
                                    <li ng-class="{ active: tab.isSet(1) }">
                                        <a href ng-click="tab.setTab(1)">SKU</a>
                                    </li>
@@ -36,10 +36,11 @@
                                   <div class="throbber-loader">
                                     Loading…
                                   </div>
+                                  <br></br>
                               </div>
                                <div ng-show="tab.isSet(1)">
                                    <div ng-app="myApp" ng-controller="productsController">
-                                       <div>
+                                       <div align="middle">
                                            <table class="table1">
                                                <tr style="font:bold">
                                                    <th>#</th>
@@ -63,7 +64,7 @@
                                </div>
                                <div ng-show="tab.isSet(2)">
                                    <div ng-app="myApp" ng-controller="productsController">
-                                       <div>
+                                       <div align="middle">
                                            <table class="table1">
                                                <tr>
                                                    <th>#</th>
@@ -91,11 +92,11 @@
                   </span></div>
               </div>
           </div>
-          <div class="rectangle-box col-xs-5">
+          <div class="container-fluid rectangle-box col-xs-5">
               <div class="rectangle-content">
                   <div><span>
-                           <h2>Inventory</h2>
-                           <h4>DATA</h4>    
+                           <h2 class="make-it-bright">Inventory</h2>
+                           <h4 class="make-it-bright">DATA</h4>    
                   </span></div>
               </div>
           </div> 
