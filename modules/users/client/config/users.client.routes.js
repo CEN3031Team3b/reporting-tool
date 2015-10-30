@@ -23,7 +23,7 @@ angular.module('users').config(['$stateProvider',
       })
       .state('settings.accounts', {
         url: '/accounts',
-        templateUrl: 'modules/users/views/settings/manage-social-accounts.client.view.html'
+        templateUrl: 'modules/users/views/settings/manage-accounts.client.view.html'
       })
       .state('settings.picture', {
         url: '/picture',
