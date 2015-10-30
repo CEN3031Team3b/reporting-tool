@@ -4,8 +4,9 @@
 
 .header {
     text-align: center;
-    background: url("../img/brand/pw_maze_black_2X.png") left top repeat;
+    background: url("http://www.cliparthut.com/clip-arts/318/rainbow-colors-318775.jpg") left top repeat;
     padding: 110px 0;
+    height: 500px;
 }
 
 .cool-background{
@@ -15,7 +16,7 @@
 }
 
 .make-it-bright{
-  color: lightblue;
+  color: blue;
 }
 
 .business-talk{
@@ -114,7 +115,7 @@ height: 400px;
 .rectangle-box{
     width: 50%;
     resize: vertical;
-    overflow: auto;
+    overflow: hidden;
     background: url("../img/brand/pw_maze_black_2X.png") left top repeat;
     border:3px solid white;
 }
