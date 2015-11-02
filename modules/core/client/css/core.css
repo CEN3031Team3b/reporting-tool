@@ -1,6 +1,11 @@
 .content {
   margin-top: 50px;
 }
+body{
+  background: linear-gradient(#6699FF,white);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
 .header {
     text-align: center;
@@ -16,7 +21,7 @@
 }
 
 .make-it-bright{
-  color: blue;
+  color: lightblue;
 }
 
 .business-talk{
