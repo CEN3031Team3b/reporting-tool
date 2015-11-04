@@ -19,8 +19,14 @@ module.exports = function (app) {
     .put(products.update)
     .delete(products.delete);
 
-  app.route('/api/mws')
-    .get(mws.orders);
+  app.route('/api/mws/orders')
+    .get(mws.orders)
+    //.get(mws.orderItems)
+    .post(products.create);
+
+  // app.route('/api/mws/orders')
+  //   //.get(mws.orders)
+  //   .get(mws.orderItems);
 
   // Finish by binding the product middleware
   app.param('productId', products.productByID);
