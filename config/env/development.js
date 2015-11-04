@@ -22,7 +22,7 @@ module.exports = {
     }
   },
   app: {
-    title: defaultEnvConfig.app.title + ' - Development Environment'
+    title: 'Amazon Product Reporting Tool'
   },
   facebook: {
     clientID: process.env.FACEBOOK_ID || 'APP_ID',
