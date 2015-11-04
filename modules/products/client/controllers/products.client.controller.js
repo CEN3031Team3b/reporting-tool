@@ -16,7 +16,7 @@ angular.module('products').controller('TabController', function(){
 angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products',
   function ($scope, $stateParams, $location, Authentication, products) {
     $scope.authentication = Authentication;
-
+    $scope.loadInfo = true;
     // Create new product
     $scope.create = function () {
       // Create new product object
@@ -71,9 +71,12 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       $scope.totalDisplayed += 20;  
     };
     
+
     // Find a list of products
     $scope.find = function () {
-      $scope.products = products.query();
+      $scope.products = products.query(function(){
+        $scope.loadInfo = false;
+      })
     };
 
     // Find existing product
@@ -82,5 +85,5 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         productId: $stateParams.productId
       });
     };
-  }
-]);
+  
+}]);

@@ -74,7 +74,7 @@ exports.delete = function (req, res) {
  * List of products
  */
 exports.list = function (req, res) {
-  product.find().sort('-created').populate('user', 'displayName').exec(function (err, products) {
+  product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

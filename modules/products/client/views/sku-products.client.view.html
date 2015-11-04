@@ -1,7 +1,13 @@
-<section data-ng-controller="productsController" data-ng-init="find()">
-    <h4>Sku-Report</h4>
+<link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
+<section class="cool-background" data-ng-controller="productsController" data-ng-init="find()">
+    <h4 class="make-it-bright">Sku-Report</h4>
+    <div ng-show="loadInfo" align="middle">
+        <div class="throbber-loader">
+            Loading…
+        </div>
+    </div>
     <div ng-app="myApp" ng-controller="productsController">
-        <div>
+        <div class="big-table-scroll" align="middle">
             <table class="table1">
                 <tr style="font:bold">
                     <th>#</th>
@@ -18,11 +24,17 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ x.sku }}</td> <!--put column values here-->
                     <td>{{ x.quantity_purchased }}</td>
+                    <td>{{ x.price }}</td>
+                    <td>{{ x.fba }}</td>
+                    <td>{{ x.fba_per }}</td>
+                    <td>{{ x.commission }}</td>
+                    <td>{{ x.profit_margin }}</td>
+                    <td>{{ x.prod_margin }}</td>
                 </tr>
             </table>
-            <a data-ui-sref="SKU" align="bottom" align="middle">
-                <button class="btn" ng-click="loadMore()">Load more</button>
-            </a>
+            <h5 valign="bottom" align="middle">
+                <button class="btn-info active" ng-click="loadMore()" align="middle">Load more</button>
+            </h5>
         </div>
     </div>
 </section>
