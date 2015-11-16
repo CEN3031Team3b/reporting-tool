@@ -29,6 +29,10 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         // If successful we assign the response to the global user model
         $scope.authentication.user = response;
 
+        //state.go(the function associated with mws)
+        //require mws file here
+        //$state.go('products.create')
+
         // And redirect to the dashboard
         $state.go('products.list');
       }).error(function (response) {
