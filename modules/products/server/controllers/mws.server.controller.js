@@ -25,7 +25,7 @@ exports.orders = function(request, response) {
       //response.send(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[0]);
       var i = 0;
 
-      //for(i = 90; i < RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order.length; i++) {
+      for(i = 0; i < RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order.length; i++) {
 
         console.log(JSON.stringify(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i])); // returns the first order in response information
         orderID = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].AmazonOrderId[0];
@@ -36,19 +36,39 @@ exports.orders = function(request, response) {
         sf1.params.AmazonOrderId.value = orderID;
         client.invoke(sf1, function(RESULT){
           //response.send(RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0]);
-          var sku = RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0].SellerSKU[0],
-              qty = RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0].QuantityShipped[0],
-              price = RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0].ItemPrice[0].Amount[0];
+          var newSku = RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0].SellerSKU[0],
+              newQty = RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0].QuantityShipped[0],
+              newPrice = RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0].ItemPrice[0].Amount[0];
 
-          response.send(sku);
+          //creating new product
+          var newProduct = new product({
+            sku: newSku,
+            quantity: newQty,
+            price: newPrice
+          });
+
+          //NOT WORKING BECAUSE PRODUCTS NEED AT LEAST ONE DOCUMENT
+
+          //saving new product to local database
+          newProduct.save(function (err) {
+            if (err) {
+              return response.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+              });
+            } else {
+              response.json(product);
+            }
+          });
+
+          //response.send(newProduct);
           // response.send(qty);
           // response.send(price);
-          console.log('SKU: ' + sku);
-          console.log('qty: ' + qty);
-          console.log('price: ' + price);
+          console.log('SKU: ' + newSku);
+          console.log('qty: ' + newQty);
+          console.log('price: ' + newPrice);
            //RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0] // returns first item of order
         });
-      //}
+      }
 
       
 
