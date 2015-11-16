@@ -189,6 +189,16 @@ var mongoose = require('mongoose'),
 // });
 
 var productSchema = new Schema({
+  dateOrdered: {
+    type: String, //can this be of type date???
+    default: '',
+    trim: true
+  },  
+  orderID: {
+    type: String,
+    default: '',
+    trim: true
+  },
   sku: {
     type: String,
     default: '',
