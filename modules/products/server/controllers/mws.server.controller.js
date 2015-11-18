@@ -75,6 +75,7 @@ exports.orders = function(request, response) {
             console.log('SKU: ' + newSku);
             console.log('qty: ' + newQty);
             console.log('price: ' + newPrice);
+            console.log('date: ' + newDate);
             /*RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0] // returns first item of order*/
           }
           //INNER LOOP1 END
