@@ -10,15 +10,14 @@ var mongoose = require('mongoose'),
  * product Schema
  */
 var productSchema = new Schema({
-  dateOrdered: {
+  purchaseDate: {
     type: String, //can this be of type date???
     default: '',
     trim: true
   },
   user: {
-    type: String,
-    default: '',
-    trim: true
+    type: Schema.ObjectId,
+    ref: 'User'
   },  
   orderID: {
     type: String,

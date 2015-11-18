@@ -19,22 +19,18 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     $scope.loadInfo = true;
     // Create new product
     $scope.create = function () {
-      // Create new product object
-      var product = new products({
-        title: this.title,
-        content: this.content
-      });
 
-      // Redirect after save
-      product.$save(function (response) {
-        $location.path('products/' + response._id);
+        // Redirect after save
+        product.$save(function (response) {
+          $location.path('products/' + response._id);
 
-        // Clear form fields
-        $scope.title = '';
-        $scope.content = '';
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
+          // Clear form fields
+          $scope.sku = '';
+        }, function (errorResponse) {
+          $scope.error = errorResponse.data.message;
+        });
+      };
+
     };
 
     // Remove existing product

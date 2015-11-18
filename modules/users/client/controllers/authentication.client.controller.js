@@ -35,6 +35,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
         // And redirect to the dashboard
         $state.go('products.list');
+        //$state.go('mws.orders');
       }).error(function (response) {
         $scope.error = response.message;
       });

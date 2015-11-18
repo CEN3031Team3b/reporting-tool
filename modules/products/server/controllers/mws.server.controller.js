@@ -2,7 +2,6 @@
 
 // variables for configuration
 var config = require('../../../../config/env/local'),
-    productServer = require('./products.server.controller'),
     path = require('path'),
     mongoose = require('mongoose'),
     product = mongoose.model('product'),
@@ -11,8 +10,7 @@ var config = require('../../../../config/env/local'),
 // variables to set up mws client
 var MWS = require('mws-sdk'),
     client = new MWS.Client(config.accessKeyId, config.secretAccessKey, config.merchantId, {}),
-    marketPlaceId = 'ATVPDKIKX0DER',
-    orderID = '';
+    marketPlaceId = 'ATVPDKIKX0DER';
 
 //function that makes call to amws for specified date range
 exports.orders = function(request, response) {
@@ -34,7 +32,9 @@ exports.orders = function(request, response) {
         /* console.log(JSON.stringify(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i])); // returns the first order in response information */
         
         //stores order id number so inner loop can get individual products from the order
-        orderID = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].AmazonOrderId[0];
+        // stores date order was made
+        var orderID = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].AmazonOrderId[0],
+            newDate = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].PurchaseDate[0];
         /*console.log(orderID);*/
       
         // initialize api call for the list of items in a particular order
@@ -53,7 +53,9 @@ exports.orders = function(request, response) {
             var newProduct = new product({
               sku: newSku,
               quantity: newQty,
-              price: newPrice
+              price: newPrice,
+              purchaseDate: newDate,
+              orderID: orderID
             });
 
             // have associated user for this product
