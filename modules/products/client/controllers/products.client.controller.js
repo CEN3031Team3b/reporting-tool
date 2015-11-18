@@ -31,7 +31,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         });
       };
 
-    };
+    }]);
 
     // Remove existing product
     $scope.remove = function (product) {
@@ -72,7 +72,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     $scope.find = function () {
       $scope.products = products.query(function(){
         $scope.loadInfo = false;
-      })
+      });
     };
 
     // Find existing product
