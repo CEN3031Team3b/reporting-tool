@@ -102,18 +102,24 @@ var UserSchema = new Schema({
     type: Date
   },
   awskey:{
-    type: String
+    type: String,
+    default: ''
   },
-  awsaccount: {
-    type: String
+  secretkey:{
+    type: String,
+    default: ''
+  },
+  sellerid: {
+    type: String,
+    default: ''
   },
   toTimeFrame:{
     type: Date,
-    default: Date.today()
+    default: Date.now
   },
   fromTimeFrame:{
     type: Date,
-    default: Date.today().add(-30).days()
+    default: Date.now
   },
   threshold:{
     type: Number,

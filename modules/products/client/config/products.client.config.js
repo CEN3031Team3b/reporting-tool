@@ -22,12 +22,12 @@ angular.module('products').run(['Menus',
     });
     Menus.addMenuItem('topbar', {
       title: 'Set Threshold',
-      state: 'products',
+      state: 'products#threshold',
       type: 'button'
     });
     Menus.addMenuItem('topbar', {
       title: 'Set Timeframe',
-      state: 'products',
+      state: 'products#timeframe',
       type: 'button'
     });
   }
