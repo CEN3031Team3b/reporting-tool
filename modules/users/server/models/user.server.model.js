@@ -100,6 +100,30 @@ var UserSchema = new Schema({
   },
   resetPasswordExpires: {
     type: Date
+  },
+  awskey:{
+    type: String,
+    default: ''
+  },
+  secretkey:{
+    type: String,
+    default: ''
+  },
+  sellerid: {
+    type: String,
+    default: ''
+  },
+  toTimeFrame:{
+    type: Date,
+    default: Date.now
+  },
+  fromTimeFrame:{
+    type: Date,
+    default: Date.now
+  },
+  threshold:{
+    type: Number,
+    default: 10
   }
 });
 

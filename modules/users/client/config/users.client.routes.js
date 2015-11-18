@@ -25,6 +25,10 @@ angular.module('users').config(['$stateProvider',
         url: '/accounts',
         templateUrl: 'modules/users/views/settings/manage-accounts.client.view.html'
       })
+      .state('settings.aws', {
+        url: '/aws',
+        templateUrl: 'modules/users/views/settings/manage-aws.client.view.html'
+      })
       .state('settings.picture', {
         url: '/picture',
         templateUrl: 'modules/users/views/settings/change-profile-picture.client.view.html'
