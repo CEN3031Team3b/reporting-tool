@@ -76,19 +76,27 @@
         </ul>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
-      <li data-ui-sref-active="active" ng-show="authentication.user">
-          <a>Set Threshold
-              <input type="text" name="threshold" value="{{authentication.user.threshold}}">
-          </a>
-      </li>
-      
-
-      <li data-ui-sref-active="active" ng-show="authentication.user">
-          <a data-ng-controller="EditProfileController" onclick="myFunction()">Set Timeframe
-
-          </a>
-      </li>
-    </ul>
+    <ul class="nav navbar-nav navbar-middle" data-ng-show="authentication.user">
+                    <li data-ui-sref-active="active" style="padding-left:10px" ng-show="authentication.user">
+                        <input id="info" type="button" value="Set Threshold">
+                          <div id="myDiv">
+                              <form style="color:white">New Threshold:
+                                  <input style="color:black" type="text" onkeydown="if (event.keyCode == 13) {
+                              alert('Timeframe Updated');
+                              return false;
+                              }">
+                                  </input>
+                              </form>
+                          </div>
+                    </li>
+                    <li data-ui-sref-active="active" style="padding-left:10px" ng-show="authentication.user">
+                        <h5 style="color:white">Set Timeframe
+                            <input style="color:black" type="date" onkeydown="if (event.keyCode == 13) {
+                              alert('Timeframe Updated');
+                              return false;
+                              }">
+                        </h5>
+                    </li>
+                  </ul>
   </nav>
 </div>
