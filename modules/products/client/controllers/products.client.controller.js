@@ -31,8 +31,6 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         });
       };
 
-    }]);
-
     // Remove existing product
     $scope.remove = function (product) {
       if (product) {
@@ -73,6 +71,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       $scope.products = products.query(function(){
         $scope.loadInfo = false;
       });
+      console.log($scope.products);
     };
 
     // Find existing product
@@ -81,5 +80,4 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         productId: $stateParams.productId
       });
     };
-  
-}]);
+  }]);
