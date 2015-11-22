@@ -11,7 +11,6 @@ module.exports = function (app) {
   // products collection routes
   app.route('/api/products')
     .get(products.list)
-    //.get(mws.orders)
     .post(products.create);
 
   // Single product routes
