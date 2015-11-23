@@ -83,9 +83,9 @@
 };
 
 /*
- *
+ *  Makes API call to get info on items in an order
  */
- function listOrderItems(orderID){
+ function listOrderItems(orderID, newDate){
   // initialize api call for the list of items in a particular order
   var sf1 = new MWS.Orders.requests.ListOrderItems({'orderID': orderID});
   sf1.params.AmazonOrderId.value = orderID;
@@ -126,11 +126,11 @@
 /*
  *  Returns if data in our db
  */
- function inDB(num, orderID){
+ function inDB(num, orderID, newDate){
   if(num === 0) {
     console.log('\n\nOrder doesn\'t exist\n\n');
     //call to add to db
-    listOrderItems(orderID);
+    listOrderItems(orderID, newDate);
   }
   else {
     console.log('\n\nOrder already exists\n\n');
@@ -140,7 +140,7 @@
 /**
  * Find product by order id
  */
- function productByOrderID (req, res, next, orderID) {
+ function productByOrderID (req, res, next, orderID, newDate) {
 
   if (orderID === '') {
     return res.status(400).send({
@@ -152,7 +152,7 @@
     if (err) {
       return next(err);
     } else if (!product) {
-      return next(0);
+      return next(0, orderID, newDate);
     }
     //req.product = product;
     next(product);
@@ -187,10 +187,10 @@ function orders(request, response, CreatedAfter, CreatedBefore){
           //stores order id number so inner loop can get individual products from the order
           // stores date order was made
           var orderID = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].AmazonOrderId[0],
-          newDate = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].PurchaseDate[0];
+              newDate = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].PurchaseDate[0];
           /*console.log(orderID);*/
 
-          if(productByOrderID(request, response, inDB, orderID)){
+          if(productByOrderID(request, response, inDB, orderID, newDate)){
             console.log('Information is already in our db.');
           }
           else{
@@ -202,11 +202,6 @@ function orders(request, response, CreatedAfter, CreatedBefore){
       
     });
 }
-
-function copyOver() {
-
-}
-
 
 /**
  * List of products
