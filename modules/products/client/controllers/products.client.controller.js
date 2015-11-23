@@ -54,12 +54,23 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       }
     };
 
-    // Update existing product
-    $scope.update = function () {
-      var product = $scope.product;
+    //may not need this
+    $scope.updateCost = function(productToChange) {
+      console.log('im being called');
 
-      product.$update(function () {
-        $location.path('products/' + product._id);
+      var element = document.getElementById("cost").value;  
+      console.log('New cost to be set: ' + element);
+
+     productToChange.cost = element;
+     console.log('cost set!');
+
+    };
+
+    // Update existing product
+    $scope.update = function (productToChange) {
+      $scope.updateCost(productToChange);
+      productToChange.update(function (productToChange) {
+        $location.path('products/' + productToChange._id);
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
@@ -85,5 +96,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         productId: $stateParams.productId
       });
     };
+
+    
   
 }]);

@@ -10,6 +10,11 @@ var mongoose = require('mongoose'),
  * product Schema
  */
 var productSchema = new Schema({
+  cost: {
+    type: Number,
+    default: 0.00,
+    trim: true
+  },
   shipment_fee_type: {
     type: String,
     default: '',

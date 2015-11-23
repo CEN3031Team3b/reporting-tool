@@ -19,6 +19,7 @@
                     <th>Commission</th>
                     <th>Profit Margin</th>
                     <th>Product Margin</th>
+                    <th>Cost</th>
                 </tr>
                 <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
@@ -30,6 +31,14 @@
                     <td>{{ x.commission }}</td>
                     <td>{{ x.profit_margin }}</td>
                     <td>{{ x.prod_margin }}</td>
+                    <td ng-dblclick="editorEnabled=!editorEnabled">
+                        <div ng-hide="editorEnabled">
+                            <a href="#"><span>{{x.cost}}</span></a>
+                        </div>
+                            <div ng-show="editorEnabled" ng-dblclick="editorEnabled=!editorEnabled">
+                                <input type="number" id="cost" step=".01" min="0" ng-model="x.cost" ng-change="update(x)" >
+                            </div>
+                    </td>
                 </tr>
             </table>
             <h5 valign="bottom" align="middle">
