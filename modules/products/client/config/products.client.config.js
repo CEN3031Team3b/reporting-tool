@@ -20,15 +20,5 @@ angular.module('products').run(['Menus',
       title: 'Brand Report',
       state: 'products.brand'
     });
-    Menus.addMenuItem('topbar', {
-      title: 'Set Threshold',
-      state: 'products#threshold',
-      type: 'button'
-    });
-    Menus.addMenuItem('topbar', {
-      title: 'Set Timeframe',
-      state: 'products#timeframe',
-      type: 'button'
-    });
   }
 ]);
