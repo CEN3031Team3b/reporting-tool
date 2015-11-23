@@ -13,8 +13,8 @@ angular.module('products').controller('TabController', function(){
   });
 
 // products controller
-angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products',
-  function ($scope, $stateParams, $location, Authentication, products) {
+angular.module('products').controller('productsController', ['$scope', '$http', '$stateParams', '$location', 'Authentication', 'products',
+  function ($scope, $http, $stateParams, $location, Authentication, products) {
     $scope.authentication = Authentication;
     $scope.loadInfo = true;
     // Create new product
@@ -55,10 +55,12 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     };
 
     //may not need this
-    $scope.updateCost = function(productToChange) {
+    $scope.updateCost = function(productToChange, index) {
       console.log('im being called');
 
-      var element = document.getElementById("cost").value;  
+      var elementID ='cost' + index;
+      var element = document.getElementById(elementID).value; 
+      element = Number(element); 
       console.log('New cost to be set: ' + element);
 
      productToChange.cost = element;
@@ -66,15 +68,35 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
 
     };
 
-    // Update existing product
-    $scope.update = function (productToChange) {
-      $scope.updateCost(productToChange);
-      productToChange.update(function (productToChange) {
-        $location.path('products/' + productToChange._id);
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
+    
+
+    $scope.updateProductProfile = function (x, index, isValid) {
+      if (isValid) {
+        var productToChange = x;
+        console.log(x);
+        $scope.updateCost(productToChange, index);
+
+        var updatedProduct = new products(productToChange);
+        console.log(updatedProduct);
+
+        $http.put('/api/products/' + updatedProduct._id, updatedProduct)
+        .then(function(result) {
+          console.log(result);
+          console.log("Success Post"); 
+        });    
+      }
     };
+
+    // $scope.update = function () {
+    //   var product = $scope.product;
+    //   updateCost();
+    //   product.update(function () {
+    //     $location.path('products/' + product._id);
+    //   }, function (errorResponse) {
+    //     $scope.error = errorResponse.data.message;
+    //   });
+    // };
+
 
     $scope.totalDisplayed = 20;
 
@@ -87,7 +109,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     $scope.find = function () {
       $scope.products = products.query(function(){
         $scope.loadInfo = false;
-      })
+      });
     };
 
     // Find existing product

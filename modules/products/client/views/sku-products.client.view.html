@@ -34,10 +34,11 @@
                     <td>{{ x.prod_margin }}</td>
                     <td ng-dblclick="editorEnabled=!editorEnabled">
                         <div ng-hide="editorEnabled">
-                            <a href="#"><span>{{x.cost}}</span></a>
+                            <a href="#" ng-click="editorEnabled=!editorEnabled"><span>{{x.cost}}</span></a>
                         </div>
                             <div ng-show="editorEnabled" ng-dblclick="editorEnabled=!editorEnabled">
-                                <input type="number" id="cost" step=".01" min="0" ng-model="x.cost" ng-change="update(x)" >
+                                <input type="number" id="cost{{$index}}" step=".01" min="0" ng-model="x.cost" >
+                            <div align="right" style="color:blue" ><a href="#" ng-click="editorEnabled=!editorEnabled;updateProductProfile(x, $index, true)"><u>Finish</u> </a></div>                                
                             </div>
                     </td>
                 </tr>
