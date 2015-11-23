@@ -76,27 +76,30 @@
         </ul>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-middle" data-ng-show="authentication.user">
-                    <li data-ui-sref-active="active" style="padding-left:10px" ng-show="authentication.user">
-                        <input id="info" type="button" value="Set Threshold">
-                          <div id="myDiv">
-                              <form style="color:white">New Threshold:
-                                  <input style="color:black" type="text" onkeydown="if (event.keyCode == 13) {
-                              alert('Timeframe Updated');
-                              return false;
-                              }">
-                                  </input>
-                              </form>
-                          </div>
-                    </li>
-                    <li data-ui-sref-active="active" style="padding-left:10px" ng-show="authentication.user">
-                        <h5 style="color:white">Set Timeframe
-                            <input style="color:black" type="date" onkeydown="if (event.keyCode == 13) {
-                              alert('Timeframe Updated');
-                              return false;
-                              }">
-                        </h5>
-                    </li>
-                  </ul>
+    <ul class="nav navbar-nav navbar-left" data-ng-show="authentication.user" style="padding-left:275px">
+      <li data-ui-sref-active="active" style="padding-left:10px" ng-show="authentication.user">
+          <h5 style="color:white">Set Threshold</h5>
+                <form style="color:white">New Threshold:
+                    <input style="color:black" type="text" onkeydown="if (event.keyCode == 13) {
+                alert('Threshold Updated');
+                return false;
+                }">
+                    </input>
+                </form>
+      </li>
+      <li data-ui-sref-active="active" style="padding-left:10px" ng-show="authentication.user">
+         <h5 style="color:white">Set Timeframe</h5>
+              <form style="color:white">From:
+                <input style="color:black" type="date" onkeydown="if (event.keyCode == 13) {
+                  alert('Timeframe Updated');
+                  return false;
+                  }">To:
+                   <input style="color:black" type="date" onkeydown="if (event.keyCode == 13) {
+                  alert('Timeframe Updated');
+                  return false;
+                  }">
+              </form>
+      </li>
+    </ul>
   </nav>
 </div>
