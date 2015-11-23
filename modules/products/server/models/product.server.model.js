@@ -28,19 +28,16 @@ var productSchema = new Schema({
     trim: true
   },
   quantity: {
-    type: String,
-    default: '',
-    trim: true
+    type: Number,
+    default: 0
   },
   price: { //amount user spent on item
-    type: String,
-    default: '',
-    trim: true
+    type: Number,
+    default: 0
   },
   cost: { //cost of producing/company purchased item
-    type: String,
-    default: '0',
-    trim: true
+    type: Number,
+    default: '0'
   },
   brand: {
     type: String,
@@ -48,24 +45,20 @@ var productSchema = new Schema({
     trim: true
   },
   fbaAmt: {
-    type: String,
-    default: '',
-    trim: true
+    type: Number,
+    default: 0
   },
   fbaPct: {
-    type: String,
-    default: '',
-    trim: true
+    type: Number,
+    default: 0
   },
   profitMargin: {
-    type: String,
-    default: '',
-    trim: true
+    type: Number,
+    default: 0
   },
   productMargin: {
-    type: String,
-    default: '',
-    trim: true
+    type: Number,
+    default: 0
   }
 });
 
