@@ -1,3 +1,4 @@
+<div style="padding-top:35px"></div>
 <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
 <section class="cool-background" data-ng-controller="productsController" data-ng-init="find()">
     <h4 class="make-it-bright">Brand-Report</h4>
@@ -23,7 +24,7 @@
                 <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
                     <td>{{ x.sku }}</td> <!--put column values here-->
-                    <td>{{ x.quantity_purchased }}</td>
+                    <td>{{ x.quantity }}</td>
                     <td>{{ x.price }}</td>
                     <td>{{ x.fba }}</td>
                     <td>{{ x.fba_per }}</td>

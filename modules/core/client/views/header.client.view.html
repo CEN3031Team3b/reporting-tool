@@ -22,10 +22,9 @@
         <a data-ui-sref="home#contact">Contact</a>
       </li>
 
-
-        <li data-ui-sref-active="active" ng-show="authentication.user">
-            <a data-ui-sref="products.list">Dashboard</a>
-        </li>
+      <li data-ui-sref-active="active" ng-show="authentication.user">
+          <a data-ui-sref="products.list">Dashboard</a>
+      </li>
     </ul> 
     <ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
       <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" data-ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
@@ -64,8 +63,12 @@
             <a data-ui-sref="settings.password">Change Password</a>
           </li>
           <li data-ui-sref-active="active">
+            <a data-ui-sref="settings.aws">Change AWS Credentials</a>
+          </li>
+          <li data-ui-sref-active="active">
             <a data-ui-sref="settings.accounts">Manage Accounts</a>
           </li>
+          
           <li class="divider"></li>
           <li>
             <a href="/api/auth/signout" target="_self">Signout</a>
@@ -73,5 +76,30 @@
         </ul>
       </li>
     </ul>
+    <section data-ng-controller="EditProfileController">
+    <ul class="nav navbar-nav navbar-left" data-ng-show="authentication.user" style="padding-left:150px">
+      <form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)"autocomplete="off">
+      <fieldset>
+          <label for="threshold" style="color:white" >Threshold</label>
+          <input type="text" id="threshold" name="threshold" data-ng-model="user.threshold" placeholder="Threshold">
+          <a style="padding-left:25px"></a>
+          <label for="fromTimeFrame" style="color:white"> From:</label>
+          <input type="date" id="fromTimeFrame" name="fromTimeFrame" data-ng-model="user.fromTimeFrame" placeholder="From Date">
+          <a style="padding-left:25px"></a>
+          <label for="toTimeFrame" style="color:white"> To:</label>
+          <input type="date" id="toTimeFrame" name="toTimeFrame" data-ng-model="user.toTimeFrame" placeholder="To Date">
+          <a style="padding-left:25px"></a>
+          <button type="submit" class="btn btn-primary">Save Profile</button>
+
+        <div data-ng-show="success" class="text-center text-success">
+          <strong>Profile Saved Successfully</strong>
+        </div>
+        <div data-ng-show="error" class="text-center text-danger">
+          <strong data-ng-bind="error"></strong>
+        </div>
+      </fieldset>
+    </form>
+    </ul>
+  </section>
   </nav>
 </div>
