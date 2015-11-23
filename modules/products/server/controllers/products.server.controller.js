@@ -157,7 +157,7 @@
     //req.product = product;
     next(product);
   });
-};
+}
 
 //Makes Amazon MWS API calls when needed
 function orders(request, response, CreatedAfter, CreatedBefore){
@@ -190,16 +190,10 @@ function orders(request, response, CreatedAfter, CreatedBefore){
               newDate = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].PurchaseDate[0];
           /*console.log(orderID);*/
 
-          if(productByOrderID(request, response, inDB, orderID, newDate)){
-            console.log('Information is already in our db.');
-          }
-          else{
-          }        
+          productByOrderID(request, response, inDB, orderID, newDate);
         }
         //OUTER LOOP END
       }
-
-      
     });
 }
 
