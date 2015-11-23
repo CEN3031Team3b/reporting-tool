@@ -169,6 +169,25 @@ function orders(request, response){
   });
 }
 
+// Queries database and updates profitMargin and productMargin attributes
+function margins() {
+  // query all documents in DB
+  product.find(function(err, results) {
+    if (err) 
+      console.log(err);
+
+    // cycle through every document and update attributes
+    for(var i = 0; i < results.length; i++) {
+      results[i].profitMargin = (results[i].price - results[i].fbaAmt - results[i].cost)/results[i].price; // profit margin
+      results[i].productMargin = results[i].cost/results[i].price; // product margin
+      results[i].save(function(err) {
+        if (err) 
+          console.log(err);
+      });
+    }
+  });
+}
+
 /**
  * List of products
  */
