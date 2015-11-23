@@ -50,7 +50,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
 
     // Update existing product
     $scope.update = function () {
-      var product = $scope.product;
+      var product = $scope.products;
 
       product.$update(function () {
         $location.path('products/' + product._id);
