@@ -10,103 +10,14 @@ var mongoose = require('mongoose'),
  * product Schema
  */
 var productSchema = new Schema({
-  shipment_fee_type: {
-    type: String,
-    default: '',
-    trim: true
+  purchaseDate: {
+    type: Date
   },
-  marketplace_name: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  shipment_id: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  adjustment_id: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  merchant_order_id: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  order_id: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  transaction_type: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  currency: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  total_amount: {
-    type: String,
-    default: 0.0
-  },
-  depositdate: {
-    type: Date,
-    default: Date.now
-  },
-  settlement_end_date: {
-    type: Date,
-    default: Date.now
-  },
-  settlement_start_date: {
-    type: Date,
-    default: Date.now
-  },
-  settlement_id: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  shipment_fee_amount: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  order_fee_type: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  order_fee_amount: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  fulfillment_id: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  posted_date: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  order_item_code: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  merchant_order_item_id: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  merchant_adjustment_item_id: {
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },  
+  orderID: {
     type: String,
     default: '',
     trim: true
@@ -116,75 +27,38 @@ var productSchema = new Schema({
     default: '',
     trim: true
   },
-  quantity_purchased: {
+  quantity: {
+    type: Number,
+    default: 0
+  },
+  price: { //amount user spent on item
+    type: Number,
+    default: 0
+  },
+  cost: { //cost of producing/company purchased item
+    type: Number,
+    default: '0'
+  },
+  brand: {
     type: String,
-    default: '',
+    default: 'Please input brand',
     trim: true
   },
-  item_related_fee_type: {
-    type: String,
-    default: '',
-    trim: true
+  fbaAmt: {
+    type: Number,
+    default: 0
   },
-  item_related_fee_amount: {
-    type: String,
-    default: '',
-    trim: true
+  fbaPct: {
+    type: Number,
+    default: 0
   },
-  other_fee_amount: {
-    type: String,
-    default: '',
-    trim: true
+  profitMargin: {
+    type: Number,
+    default: 0
   },
-  other_fee_reason_description: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  misc_fee_amount: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  price_amount: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  price_type: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  other_amount: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  direct_payment_amount: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  direct_payment_type: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  promotion_amount: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  promotion_type: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  promotion_id: {
-    type: String,
-    default: '',
-    trim: true
+  productMargin: {
+    type: Number,
+    default: 0
   }
 });
 

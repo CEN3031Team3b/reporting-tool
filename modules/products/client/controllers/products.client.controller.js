@@ -19,23 +19,17 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     $scope.loadInfo = true;
     // Create new product
     $scope.create = function () {
-      // Create new product object
-      var product = new products({
-        title: this.title,
-        content: this.content
-      });
 
-      // Redirect after save
-      product.$save(function (response) {
-        $location.path('products/' + response._id);
+        // Redirect after save
+        product.$save(function (response) {
+          $location.path('products/' + response._id);
 
-        // Clear form fields
-        $scope.title = '';
-        $scope.content = '';
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
-    };
+          // Clear form fields
+          $scope.sku = '';
+        }, function (errorResponse) {
+          $scope.error = errorResponse.data.message;
+        });
+      };
 
     // Remove existing product
     $scope.remove = function (product) {
@@ -76,7 +70,8 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     $scope.find = function () {
       $scope.products = products.query(function(){
         $scope.loadInfo = false;
-      })
+      });
+      console.log($scope.products);
     };
 
     // Find existing product
@@ -85,5 +80,4 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         productId: $stateParams.productId
       });
     };
-  
-}]);
+  }]);
