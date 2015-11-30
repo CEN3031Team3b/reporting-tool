@@ -161,20 +161,24 @@
 
 //Makes Amazon MWS API calls when needed
 function orders(request, response, CreatedAfter, CreatedBefore){
-  var sf = new MWS.Orders.requests.ListOrders({'marketPlaceId': marketPlaceId});
-  
+  var sf = new MWS.Orders.requests.ListOrders({'marketPlaceId': marketPlaceId});  
+
   //assigning values to ensure we only get amazon information with criteria below
   sf.params.MarketplaceId.value = marketPlaceId;
   sf.params.CreatedAfter.value = '2014-07-10';
-  sf.params.CreatedBefore.value = '2014-07-20';
+  sf.params.CreatedBefore.value = '2014-07-29';
   sf.params.FulfillmentChannel.value = 'AFN';
   sf.params.OrderStatus.value = 'Shipped';
 
   //making the request to amazon
   client.invoke(sf, function(RESULT){
-    var i = 0;
 
-      //CHECK WHERE RESULT IS EMPTY
+    if(typeof(RESULT.ListOrdersResponse) !== 'undefined'){
+      var i = 0;
+
+      //CHECK WHERE RESULT IS EMPTY 
+      //RESULT.ErrorResponse.Error[0].Code[0] === 'RequestThrottled'
+      //typeof(RESULT.ListOrdersResponse) === 'undefined'
       if(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].length === 0) {
         console.log('There are no items ordered for specified date range.');
       }
@@ -194,7 +198,11 @@ function orders(request, response, CreatedAfter, CreatedBefore){
         }
         //OUTER LOOP END
       }
-    });
+    }
+    else {
+      console.log('\n\nYou\'re being throttled. Please try again later.\n\n');    
+    }
+  });
 }
 
 // Queries database and updates profitMargin and productMargin attributes
