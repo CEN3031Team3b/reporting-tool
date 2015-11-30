@@ -90,7 +90,7 @@
   var sf1 = new MWS.Orders.requests.ListOrderItems({'orderID': orderID});
   sf1.params.AmazonOrderId.value = orderID;
   client.invoke(sf1, function(RESULT2){
-    if(typeof(RESULT2.ListOrdersResponse) !== 'undefined'){
+    if(typeof(RESULT2.ListOrderItemsResponse) !== 'undefined'){
 
       var j = 0;
 
@@ -171,8 +171,8 @@ function orders(request, response, CreatedAfter, CreatedBefore){
 
   //assigning values to ensure we only get amazon information with criteria below
   sf.params.MarketplaceId.value = marketPlaceId;
-  sf.params.CreatedAfter.value = '2014-07-10';
-  sf.params.CreatedBefore.value = '2014-07-29';
+  sf.params.CreatedAfter.value =  '2014-07-10'; //CreatedAfter;
+  sf.params.CreatedBefore.value = '2014-07-14'; //CreatedBefore;
   sf.params.FulfillmentChannel.value = 'AFN';
   sf.params.OrderStatus.value = 'Shipped';
 
@@ -235,7 +235,11 @@ function margins() {
  */
  exports.list = function (req, res) {
   //if date doesn't exist in our DB, call orders with the dates that are missing
-  orders();
+  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  //date needs to be in a different format 
+  //needs to be yyyy-mm-dd
+
+  console.log(req.user.toTimeFrame);
 
   product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
     if (err) {
