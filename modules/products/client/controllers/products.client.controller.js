@@ -79,7 +79,7 @@ angular.module('products').controller('productsController', ['$scope', '$http', 
         var updatedProduct = new products(productToChange);
         console.log(updatedProduct);
 
-        $http.put('/api/products/' + updatedProduct._id, updatedProduct)
+        $http.post('/api/products/' + updatedProduct._id, updatedProduct)
         .then(function(result) {
           console.log(result);
           console.log("Success Post"); 
