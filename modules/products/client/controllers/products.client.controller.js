@@ -13,8 +13,8 @@ angular.module('products').controller('TabController', function(){
   });
 
 // products controller
-angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products',
-  function ($scope, $stateParams, $location, Authentication, products) {
+angular.module('products').controller('productsController', ['$scope', '$http', '$stateParams', '$location', 'Authentication', 'products',
+  function ($scope, $http, $stateParams, $location, Authentication, products) {
     $scope.authentication = Authentication;
     $scope.loadInfo = true;
     // Create new product
@@ -57,7 +57,50 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
+
+    //may not need this
+    $scope.updateCost = function(productToChange, index) {
+      console.log('im being called');
+
+      var elementID ='cost' + index;
+      var element = document.getElementById(elementID).value; 
+      element = Number(element); 
+      console.log('New cost to be set: ' + element);
+
+     productToChange.cost = element;
+     console.log('cost set!');
+
     };
+
+    
+
+    $scope.updateProductProfile = function (x, index, isValid) {
+      if (isValid) {
+        var productToChange = x;
+        console.log(x);
+        $scope.updateCost(productToChange, index);
+
+        var updatedProduct = new products(productToChange);
+        console.log(updatedProduct);
+
+        $http.post('/api/products/' + updatedProduct._id, updatedProduct)
+        .then(function(result) {
+          console.log(result);
+          console.log("Success Post"); 
+        });    
+      }
+    };
+
+    // $scope.update = function () {
+    //   var product = $scope.product;
+    //   updateCost();
+    //   product.update(function () {
+    //     $location.path('products/' + product._id);
+    //   }, function (errorResponse) {
+    //     $scope.error = errorResponse.data.message;
+    //   });
+    // };
+
 
     $scope.totalDisplayed = 20;
 
