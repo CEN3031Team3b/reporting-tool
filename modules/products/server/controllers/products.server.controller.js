@@ -90,37 +90,43 @@
   var sf1 = new MWS.Orders.requests.ListOrderItems({'orderID': orderID});
   sf1.params.AmazonOrderId.value = orderID;
   client.invoke(sf1, function(RESULT2){
-    var j = 0;
+    if(typeof(RESULT2.ListOrdersResponse) !== 'undefined'){
 
-  //INNER LOOP1 START- looping through all items in each order
-  for(j = 0; j < RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem.length; j++) {
-    var newSku = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].SellerSKU[0],
-    newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0],
-    newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
+      var j = 0;
 
-    //creating new product
-    var newProduct = new product({
-      sku: newSku,
-      quantity: newQty,
-      price: newPrice,
-      purchaseDate: newDate,
-      orderID: orderID
-    });
+      //INNER LOOP1 START- looping through all items in each order
+      for(j = 0; j < RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem.length; j++) {
+        var newSku = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].SellerSKU[0],
+        newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0],
+        newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
 
-    // have associated user for this product
-    //newProduct.user = request.user;
+        //creating new product
+        var newProduct = new product({
+          sku: newSku,
+          quantity: newQty,
+          price: newPrice,
+          purchaseDate: newDate,
+          orderID: orderID
+        });
 
-    //saving new product to local database
-    newProduct.save();
+        // have associated user for this product
+        //newProduct.user = request.user;
 
-    console.log('SKU: ' + newSku);
-    console.log('qty: ' + newQty);
-    console.log('price: ' + newPrice);
-    console.log('date: ' + newDate);
-    /*RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0] // returns first item of order*/
-  }
-  //INNER LOOP1 END
-});
+        //saving new product to local database
+        newProduct.save();
+
+        console.log('SKU: ' + newSku);
+        console.log('qty: ' + newQty);
+        console.log('price: ' + newPrice);
+        console.log('date: ' + newDate);
+        /*RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0] // returns first item of order*/
+      }
+      //INNER LOOP1 END
+    }
+    else {
+      console.log('\n\nYou\'re being throttled. Please try again later.\n\n');   
+    }
+  });
 }
 
 /*
