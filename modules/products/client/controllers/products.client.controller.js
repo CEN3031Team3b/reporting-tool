@@ -57,6 +57,7 @@ angular.module('products').controller('productsController', ['$scope', '$http', 
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
+    };
 
     //may not need this
     $scope.updateCost = function(productToChange, index) {

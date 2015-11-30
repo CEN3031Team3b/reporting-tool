@@ -173,7 +173,7 @@ function orders(request, response){
  * List of products
  */
 exports.list = function (req, res) {
-  product.find({"purchaseDate": {'$gte': new Date('2015-01-01'), '$lte': new Date('2015-11-20')}}).sort('-quantity').exec(function (err, products) {
+  product.find().sort('-quantity').exec(function (err, products) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
