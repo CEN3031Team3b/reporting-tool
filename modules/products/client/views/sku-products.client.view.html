@@ -12,6 +12,7 @@
             <table class="table1">
                 <tr style="font:bold">
                     <th>#</th>
+                    <th>Date</th>
                     <th>SKU</th>
                     <th>QTY</th>
                     <th>REV</th>
@@ -23,6 +24,7 @@
                 </tr>
                 <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
+                    <td>{{x.purchaseDate}}</td>
                     <td>{{ x.sku }}</td> <!--put column values here-->
                     <td>{{ x.quantity }}</td>
                     <td>{{ x.price }}</td>
