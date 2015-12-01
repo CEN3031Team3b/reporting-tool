@@ -175,11 +175,17 @@ function orders(request, response){
 exports.list = function (req, res) {
   product.find().sort('-quantity').exec(function (err, products) {
     if (err) {
+      console.log("fail");
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(products);
+      var filtered_products = products.filter(function (el) {
+        console.log(el.cost);
+        return (el.purchaseDate >= req.user.fromTimeFrame &&
+               el.purchaseDate <= req.user.toTimeFrame);
+      });
+      res.json(filtered_products);
     }
   });
 
