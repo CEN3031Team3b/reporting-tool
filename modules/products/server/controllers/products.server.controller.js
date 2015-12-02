@@ -165,19 +165,33 @@
   });
 }
 
+function changeDate(date){
+  var day = date.getDate();
+
+  if(day.toString().length < 2)
+    day = '0' + day;
+
+  return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + day;
+}
+
 //Makes Amazon MWS API calls when needed
 function orders(request, response, CreatedAfter, CreatedBefore){
   var sf = new MWS.Orders.requests.ListOrders({'marketPlaceId': marketPlaceId});  
 
   //assigning values to ensure we only get amazon information with criteria below
   sf.params.MarketplaceId.value = marketPlaceId;
-  sf.params.CreatedAfter.value =  '2014-07-10'; //CreatedAfter;
-  sf.params.CreatedBefore.value = '2014-07-14'; //CreatedBefore;
+  var convertedCreatedAfter = changeDate(CreatedAfter),
+      convertedCreatedBefore = changeDate(CreatedBefore);
+
+  sf.params.CreatedAfter.value =  convertedCreatedAfter; //'2014-07-10';
+  sf.params.CreatedBefore.value = convertedCreatedBefore; //'2014-07-29';
   sf.params.FulfillmentChannel.value = 'AFN';
   sf.params.OrderStatus.value = 'Shipped';
 
   //making the request to amazon
   client.invoke(sf, function(RESULT){
+
+    console.dir(RESULT);
 
     if(typeof(RESULT.ListOrdersResponse) !== 'undefined'){
       var i = 0;
