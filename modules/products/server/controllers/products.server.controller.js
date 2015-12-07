@@ -6,6 +6,7 @@
  var path = require('path'),
  mongoose = require('mongoose'),
  product = mongoose.model('product'),
+ db = require('../../../../config/env/development'),
  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /*
@@ -165,19 +166,37 @@
   });
 }
 
+function changeDate(date){
+  var day = date.getDate(),
+      month = date.getMonth() + 1;
+
+  if(day.toString().length < 2)
+    day = '0' + day;
+
+  if(month.toString().length < 2)
+    month = '0' + month;
+
+  return date.getFullYear() + '-' + month + '-' + day;
+}
+
 //Makes Amazon MWS API calls when needed
 function orders(request, response, CreatedAfter, CreatedBefore){
   var sf = new MWS.Orders.requests.ListOrders({'marketPlaceId': marketPlaceId});  
 
   //assigning values to ensure we only get amazon information with criteria below
   sf.params.MarketplaceId.value = marketPlaceId;
-  sf.params.CreatedAfter.value =  '2014-07-10'; //CreatedAfter;
-  sf.params.CreatedBefore.value = '2014-07-14'; //CreatedBefore;
+  var convertedCreatedAfter = changeDate(CreatedAfter),
+      convertedCreatedBefore = changeDate(CreatedBefore);
+
+  sf.params.CreatedAfter.value =  convertedCreatedAfter; //'2014-07-10';
+  sf.params.CreatedBefore.value = convertedCreatedBefore; //'2014-07-29';
   sf.params.FulfillmentChannel.value = 'AFN';
   sf.params.OrderStatus.value = 'Shipped';
 
   //making the request to amazon
   client.invoke(sf, function(RESULT){
+
+    console.dir(RESULT);
 
     if(typeof(RESULT.ListOrdersResponse) !== 'undefined'){
       var i = 0;
@@ -240,6 +259,13 @@ function margins() {
   //needs to be yyyy-mm-dd
 
   console.log(req.user.toTimeFrame);
+
+  // console.log(db.db.product.aggregate([
+  //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
+  //                    { $group: { total: { $sum: '$price' } } },
+  //                    { $sort: { total: -1 } }
+  //                  ]));
+
 
   product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
     if (err) {
