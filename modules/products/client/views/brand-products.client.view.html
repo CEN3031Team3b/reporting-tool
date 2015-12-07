@@ -17,7 +17,6 @@
                     <th>REV</th>
                     <th>FBA $</th>
                     <th>FBA %</th>
-                    <th>Commission</th>
                     <th>Profit Margin</th>
                     <th>Product Margin</th>
                 </tr>
@@ -25,12 +24,11 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ x.sku }}</td> <!--put column values here-->
                     <td>{{ x.quantity }}</td>
-                    <td>{{ x.price }}</td>
-                    <td>{{ x.fba }}</td>
-                    <td>{{ x.fba_per }}</td>
-                    <td>{{ x.commission }}</td>
-                    <td>{{ x.profit_margin }}</td>
-                    <td>{{ x.prod_margin }}</td>
+                    <td>{{ x.revenue }}</td>
+                    <td>{{ x.fbaAmt }}</td>
+                    <td>{{ x.fbaPct }}</td>
+                    <td>{{ x.profitMargin }}</td>
+                    <td>{{ x.productMargin }}</td>
                 </tr>
             </table>
             <h5 valign="bottom" align="middle">
