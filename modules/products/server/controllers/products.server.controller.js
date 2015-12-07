@@ -239,6 +239,7 @@ function margins() {
 
     // cycle through every document and update attributes
     for(var i = 0; i < results.length; i++) {
+      results[i].revenue = results[i].price * results[i].quantity;
       results[i].profitMargin = (results[i].price - results[i].fbaAmt - results[i].cost)/results[i].price; // profit margin
       results[i].productMargin = results[i].cost/results[i].price; // product margin
       results[i].save(function(err) {
@@ -258,14 +259,30 @@ function margins() {
   //date needs to be in a different format 
   //needs to be yyyy-mm-dd
 
-  console.log(req.user.toTimeFrame);
-
-  // console.log(db.db.product.aggregate([
-  //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
-  //                    { $group: { total: { $sum: '$price' } } },
-  //                    { $sort: { total: -1 } }
-  //                  ]));
-
+  // product.aggregate([
+  //   {
+  //     $group: {
+  //       _id: '$sku',
+  //       revenue: {$sum:  '$revenue'},
+  //       count: {$sum: '$quantity'}
+  //     }
+  //   },
+  //   {
+  //     $sort: {
+  //       _id: 1
+  //     }
+  //   }
+  //   ], function (err, result) {
+  //       if (err) {
+  //         return res.status(400).send({
+  //           message: errorHandler.getErrorMessage(err)
+  //         });
+  //       }
+  //       else {
+  //         console.dir(result);
+  //         res.json(result);
+  //       }
+  //   });
 
   product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
     if (err) {
