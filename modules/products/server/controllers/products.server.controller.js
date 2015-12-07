@@ -266,6 +266,7 @@ function margins() {
   //                    { $sort: { total: -1 } }
   //                  ]));
 
+
   product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
     if (err) {
       return res.status(400).send({
