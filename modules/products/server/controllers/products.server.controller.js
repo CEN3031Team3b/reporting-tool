@@ -6,6 +6,7 @@
  var path = require('path'),
  mongoose = require('mongoose'),
  product = mongoose.model('product'),
+ db = require('../../../../config/env/development'),
  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /*
@@ -258,6 +259,12 @@ function margins() {
   //needs to be yyyy-mm-dd
 
   console.log(req.user.toTimeFrame);
+
+  // console.log(db.db.product.aggregate([
+  //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
+  //                    { $group: { total: { $sum: '$price' } } },
+  //                    { $sort: { total: -1 } }
+  //                  ]));
 
   product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
     if (err) {
