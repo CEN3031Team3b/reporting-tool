@@ -166,12 +166,16 @@
 }
 
 function changeDate(date){
-  var day = date.getDate();
+  var day = date.getDate(),
+      month = date.getMonth() + 1;
 
   if(day.toString().length < 2)
     day = '0' + day;
 
-  return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + day;
+  if(month.toString().length < 2)
+    month = '0' + month;
+
+  return date.getFullYear() + '-' + month + '-' + day;
 }
 
 //Makes Amazon MWS API calls when needed
