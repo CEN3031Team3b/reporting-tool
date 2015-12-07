@@ -107,7 +107,8 @@
           quantity: newQty,
           price: newPrice,
           purchaseDate: newDate,
-          orderID: orderID
+          orderID: orderID,
+          revenue: newPrice * newQty
         });
 
         // have associated user for this product
@@ -239,7 +240,6 @@ function margins() {
 
     // cycle through every document and update attributes
     for(var i = 0; i < results.length; i++) {
-      results[i].revenue = results[i].price * results[i].quantity;
       results[i].profitMargin = (results[i].price - results[i].fbaAmt - results[i].cost)/results[i].price; // profit margin
       results[i].productMargin = results[i].cost/results[i].price; // product margin
       results[i].save(function(err) {
@@ -259,7 +259,71 @@ function margins() {
   //date needs to be in a different format 
   //needs to be yyyy-mm-dd
 
+  // group by sku
   // product.aggregate([
+  //   {
+  //     $group: {
+  //       _id: '$sku',
+  //       revenue: {$sum:  '$revenue'},
+  //       count: {$sum: '$quantity'}
+  //     }
+  //   },
+  //   {
+  //     $sort: {
+  //       _id: 1
+  //     }
+  //   }
+  //   ], function (err, result) {
+  //       if (err) {
+  //         return res.status(400).send({
+  //           message: errorHandler.getErrorMessage(err)
+  //         });
+  //       }
+  //       else {
+  //         console.dir(result);
+  //         res.json(result);
+  //       }
+  //   });
+
+  // group by brand
+  // product.aggregate([
+  //   {
+  //     $match: {
+  //       brand: searchBrand
+  //     }
+  //   },
+  //   {
+  //     $group: {
+  //       _id: '$brand',
+  //       revenue: {$sum:  '$revenue'},
+  //       count: {$sum: '$quantity'}
+  //     }
+  //   },
+  //   {
+  //     $sort: {
+  //       _id: 1
+  //     }
+  //   }
+  //   ], function (err, result) {
+  //       if (err) {
+  //         return res.status(400).send({
+  //           message: errorHandler.getErrorMessage(err)
+  //         });
+  //       }
+  //       else {
+  //         console.dir(result);
+  //         res.json(result);
+  //       }
+  //   });
+
+  // var searchBrand = 'Sas';
+  // //group by brand and sku
+  // product.aggregate([
+  //   {
+  //     $match: {
+  //       brand: searchBrand
+  //     }
+  //   },
   //   {
   //     $group: {
   //       _id: '$sku',
