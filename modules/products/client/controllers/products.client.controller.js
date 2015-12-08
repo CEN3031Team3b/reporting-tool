@@ -13,8 +13,8 @@ angular.module('products').controller('TabController', function(){
   });
 
 // products controller
-angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products',
-  function ($scope, $stateParams, $location, Authentication, products) {
+angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products', '$http',
+  function ($scope, $stateParams, $location, Authentication, products, $http) {
     $scope.authentication = Authentication;
     $scope.loadInfo = true;
     // Create new product
@@ -72,6 +72,32 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         $scope.loadInfo = false;
       });
       console.log($scope.products);
+    };
+
+    // Find a list of skus
+    $scope.findSKU = function () {
+      $http({method: 'GET', url: 'api/sku'}).then(function(response) {
+        $scope.products = response.data;
+        $scope.loadInfo = false;
+      });
+      console.log($scope.products);
+    };
+
+    // Find a list of brands (brand report )
+    $scope.findBrand = function () {
+      $http({method: 'GET', url: 'api/brands'}).then(function(response) {
+        $scope.products = response.data;
+        $scope.loadInfo = false;
+      });
+      console.log($scope.products);
+    };
+
+    // Find a list of skus for a brand
+    $scope.findBrandSKUs = function () {
+      $http({method: 'GET', url: 'api/brand'}).then(function(response) {
+        $scope.products = response.data;
+        $scope.loadInfo = false;
+      });
     };
 
     // Find existing product

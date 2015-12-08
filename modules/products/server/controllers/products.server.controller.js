@@ -107,7 +107,8 @@
           quantity: newQty,
           price: newPrice,
           purchaseDate: newDate,
-          orderID: orderID
+          orderID: orderID,
+          revenue: newPrice * newQty
         });
 
         // have associated user for this product
@@ -251,21 +252,13 @@ function margins() {
 
 /**
  * List of products
+ * AKA list orders report
  */
  exports.list = function (req, res) {
   //if date doesn't exist in our DB, call orders with the dates that are missing
-  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   //date needs to be in a different format 
   //needs to be yyyy-mm-dd
-
-  console.log(req.user.toTimeFrame);
-
-  // console.log(db.db.product.aggregate([
-  //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
-  //                    { $group: { total: { $sum: '$price' } } },
-  //                    { $sort: { total: -1 } }
-  //                  ]));
-
 
   product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
     if (err) {
@@ -277,6 +270,145 @@ function margins() {
     }
   });
 };
+
+/**
+ * list by sku 
+ * AKA SKU Report
+ */
+exports.listBySku = function (req, res) {
+
+  product.aggregate([
+    {
+      $group: {
+        _id: '$sku',
+        revenue: {$sum:  '$revenue'},
+        quantity: {$sum: '$quantity'},
+        brand: {$first: '$brand'},
+        fbaAmt: {$sum: '$fbaAmt'},
+        fbaPct: {$avg: '$fbaPct'},
+        profitMargin: {$avg: '$profitMargin'},
+        productMargin: {$avg: '$productMargin'}
+      }
+    },
+    {
+      $sort: {
+        profitMargin: 1
+      }
+    }
+    ], function (err, result) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        else {
+          console.dir(result);
+          res.json(result);
+        }
+    });
+};
+
+/**
+ * list by brand
+ * AKA Brand report
+ */
+exports.listByBrand = function (req, res, searchBrand) {
+  product.aggregate([
+    {
+      $match: {
+        brand: searchBrand
+      }
+    },
+    {
+      $group: {
+        _id: '$brand',
+        revenue: {$sum:  '$revenue'},
+        quantity: {$sum: '$quantity'},
+        fbaAmt: {$sum: '$fbaAmt'},
+        fbaPct: {$avg: '$fbaPct'},
+        profitMargin: {$avg: '$profitMargin'},
+        productMargin: {$avg: '$productMargin'}
+      }
+    },
+    {
+      $sort: {
+        _id: 1
+      }
+    }
+    ], function (err, result) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        else {
+          console.dir(result);
+          res.json(result);
+        }
+    });
+};
+
+/**
+ * list by brand and sku
+ * AKA click brand on sku report
+ */
+exports.listByBrandAndSku = function (req, res, searchBrand) {
+  product.aggregate([
+    {
+      $match: {
+        brand: searchBrand
+      }
+    },
+    {
+      $group: {
+        _id: '$sku',
+        revenue: {$sum:  '$revenue'},
+        quantity: {$sum: '$quantity'},
+        fbaAmt: {$sum: '$fbaAmt'},
+        fbaPct: {$avg: '$fbaPct'},
+        profitMargin: {$avg: '$profitMargin'},
+        productMargin: {$avg: '$productMargin'}
+      }
+    },
+    {
+      $sort: {
+        _id: 1
+      }
+    }
+    ], function (err, result) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        else {
+          console.dir(result);
+          res.json(result);
+        }
+    });
+};
+
+/**
+ * calculate total revenue
+ * for the dashboard
+ */
+// exports.calculateTotalRevenue = function (req, res, searchBrand) {
+//   product.aggregate([
+//     {
+//       $sum:  '$revenue'
+//     }
+//     ], function (err, result) {
+//         if (err) {
+//           return res.status(400).send({
+//             message: errorHandler.getErrorMessage(err)
+//           });
+//         }
+//         else {
+//           console.dir(result);
+//           res.json(result);
+//         }
+//     });
+// };
 
 /**
  * product middleware

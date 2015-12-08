@@ -1,6 +1,6 @@
 <div style="padding-top:35px"></div>
 <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
-<section class="cool-background" data-ng-controller="productsController" data-ng-init="find()">
+<section class="cool-background" data-ng-controller="productsController" data-ng-init="findBrand()">
     <h4 class="make-it-bright">Brand-Report</h4>
     <div ng-show="loadInfo" align="middle">
         <div class="throbber-loader">
@@ -17,24 +17,22 @@
                     <th>REV</th>
                     <th>FBA $</th>
                     <th>FBA %</th>
-                    <th>Commission</th>
                     <th>Profit Margin</th>
                     <th>Product Margin</th>
                 </tr>
                 <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ x.sku }}</td> <!--put column values here-->
+                    <td>{{ x._id }}</td> <!--put column values here-->
                     <td>{{ x.quantity }}</td>
-                    <td>{{ x.price }}</td>
-                    <td>{{ x.fba }}</td>
-                    <td>{{ x.fba_per }}</td>
-                    <td>{{ x.commission }}</td>
-                    <td>{{ x.profit_margin }}</td>
-                    <td>{{ x.prod_margin }}</td>
+                    <td>{{ x.revenue }}</td>
+                    <td>{{ x.fbaAmt }}</td>
+                    <td>{{ x.fbaPct }}</td>
+                    <td>{{ x.profitMargin }}</td>
+                    <td>{{ x.productMargin }}</td>
                 </tr>
             </table>
             <h5 valign="bottom" align="middle">
-                <button class="btn-info active" ng-click="loadMore()" align="middle">Load more</button>
+                <button class="btn btn-info active" ng-click="loadMore()" align="middle">Load more</button>
             </h5>
         </div>
     </div>
