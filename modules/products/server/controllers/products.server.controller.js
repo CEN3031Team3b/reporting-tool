@@ -259,7 +259,7 @@ function margins() {
   //date needs to be in a different format 
   //needs to be yyyy-mm-dd
 
-  console.log(req.user.toTimeFrame);
+  //console.log(req.user.toTimeFrame);
 
   // console.log(db.db.product.aggregate([
   //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
