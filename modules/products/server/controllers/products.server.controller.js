@@ -392,23 +392,26 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
  * calculate total revenue
  * for the dashboard
  */
-// exports.calculateTotalRevenue = function (req, res, searchBrand) {
-//   product.aggregate([
-//     {
-//       $sum:  '$revenue'
-//     }
-//     ], function (err, result) {
-//         if (err) {
-//           return res.status(400).send({
-//             message: errorHandler.getErrorMessage(err)
-//           });
-//         }
-//         else {
-//           console.dir(result);
-//           res.json(result);
-//         }
-//     });
-// };
+exports.calculateTotalRevenue = function (req, res, searchBrand) {
+  product.aggregate([
+    {
+      $group: {
+        _id: '$*',
+        revenue: {$sum:  '$revenue'}
+      }
+    }
+    ], function (err, result) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        else {
+          console.dir(result);
+          res.json(result);
+        }
+    });
+};
 
 /**
  * product middleware
