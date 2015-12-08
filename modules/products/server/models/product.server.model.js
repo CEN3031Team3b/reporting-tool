@@ -37,7 +37,11 @@ var productSchema = new Schema({
   },
   cost: { //cost of producing/company purchased item
     type: Number,
-    default: '0'
+    default: 0
+  },
+  revenue: { //quantity * price
+    type: Number,
+    default: 0
   },
   brand: {
     type: String,
