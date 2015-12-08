@@ -3,20 +3,24 @@
 /**
  * Module dependencies.
  */
-var path = require('path'),
-  mongoose = require('mongoose'),
-  product = mongoose.model('product'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+ var path = require('path'),
+ mongoose = require('mongoose'),
+ product = mongoose.model('product'),
+ db = require('../../../../config/env/development'),
+ errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
-var config = require('../../../../config/env/local'),
-    MWS = require('mws-sdk'),
-    client = new MWS.Client(config.accessKeyId, config.secretAccessKey, config.merchantId, {}),
-    marketPlaceId = 'ATVPDKIKX0DER';
+/*
+ * Configuration for MWS connection
+ */
+ var config = require('../../../../config/env/local'),
+ MWS = require('mws-sdk'),
+ client = new MWS.Client(config.accessKeyId, config.secretAccessKey, config.merchantId, {}),
+ marketPlaceId = 'ATVPDKIKX0DER';
 
 /**
  * Create a product
  */
-exports.create = function (req, res) {
+ exports.create = function (req, res) {
   var product = new product(req.body);
   product.user = req.user;
 
@@ -34,14 +38,14 @@ exports.create = function (req, res) {
 /**
  * Show the current product
  */
-exports.read = function (req, res) {
+ exports.read = function (req, res) {
   res.json(req.product);
 };
 
 /**
  * Update a product
  */
-exports.update = function (req, res) {
+ exports.update = function (req, res) {
   var product = req.product;
 
   product.sku = req.body.sku;
@@ -65,7 +69,7 @@ exports.update = function (req, res) {
 /**
  * Delete an product
  */
-exports.delete = function (req, res) {
+ exports.delete = function (req, res) {
   var product = req.product;
 
   product.remove(function (err) {
@@ -79,101 +83,192 @@ exports.delete = function (req, res) {
   });
 };
 
-/**
- * find product by date
+/*
+ *  Makes API call to get info on items in an order
  */
-function productByDate (req, res, next, CreatedAfter, CreatedBefore) {
+ function listOrderItems(orderID, newDate){
+  // initialize api call for the list of items in a particular order
+  var sf1 = new MWS.Orders.requests.ListOrderItems({'orderID': orderID});
+  sf1.params.AmazonOrderId.value = orderID;
+  client.invoke(sf1, function(RESULT2){
+    if(typeof(RESULT2.ListOrderItemsResponse) !== 'undefined'){
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+      var j = 0;
+
+      //INNER LOOP1 START- looping through all items in each order
+      for(j = 0; j < RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem.length; j++) {
+        var newSku = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].SellerSKU[0],
+        newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0],
+        newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
+
+        //creating new product
+        var newProduct = new product({
+          sku: newSku,
+          quantity: newQty,
+          price: newPrice,
+          purchaseDate: newDate,
+          orderID: orderID
+        });
+
+        // have associated user for this product
+        //newProduct.user = request.user;
+
+        //saving new product to local database
+        newProduct.save();
+
+        console.log('SKU: ' + newSku);
+        console.log('qty: ' + newQty);
+        console.log('price: ' + newPrice);
+        console.log('date: ' + newDate);
+        /*RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0] // returns first item of order*/
+      }
+      //INNER LOOP1 END
+    }
+    else {
+      console.log('\n\nYou\'re being throttled. Please try again later.\n\n');   
+    }
+  });
+}
+
+/*
+ *  Returns if data in our db
+ */
+ function inDB(num, orderID, newDate){
+  if(num === 0) {
+    console.log('\n\nOrder doesn\'t exist\n\n');
+    //call to add to db
+    listOrderItems(orderID, newDate);
+  }
+  else {
+    console.log('\n\nOrder already exists\n\n');
+  }
+}
+
+/**
+ * Find product by order id
+ */
+ function productByOrderID (req, res, next, orderID, newDate) {
+
+  if (orderID === '') {
     return res.status(400).send({
-      message: 'product is invalid'
+      message: 'order id is invalid'
     });
   }
 
-  product.findById(id).populate('user', 'displayName').exec(function (err, product) {
+  product.findOne({'orderID': orderID}).exec(function (err, product) {
     if (err) {
       return next(err);
     } else if (!product) {
-      return res.status(404).send({
-        message: 'No product with that identifier has been found'
-      });
+      return next(0, orderID, newDate);
     }
-    req.product = product;
-    next();
+    //req.product = product;
+    next(product);
   });
-};
+}
+
+function changeDate(date){
+  var day = date.getDate(),
+      month = date.getMonth() + 1;
+
+  if(day.toString().length < 2)
+    day = '0' + day;
+
+  if(month.toString().length < 2)
+    month = '0' + month;
+
+  return date.getFullYear() + '-' + month + '-' + day;
+}
 
 //Makes Amazon MWS API calls when needed
-function orders(request, response){
-    var sf = new MWS.Orders.requests.ListOrders({'marketPlaceId': marketPlaceId});
-  
+function orders(request, response, CreatedAfter, CreatedBefore){
+  var sf = new MWS.Orders.requests.ListOrders({'marketPlaceId': marketPlaceId});  
+
   //assigning values to ensure we only get amazon information with criteria below
   sf.params.MarketplaceId.value = marketPlaceId;
-  sf.params.CreatedAfter.value = '2015-10-20';
-  sf.params.CreatedBefore.value = '2015-11-18';
+  var convertedCreatedAfter = changeDate(CreatedAfter),
+      convertedCreatedBefore = changeDate(CreatedBefore);
+
+  sf.params.CreatedAfter.value =  convertedCreatedAfter; //'2014-07-10';
+  sf.params.CreatedBefore.value = convertedCreatedBefore; //'2014-07-29';
   sf.params.FulfillmentChannel.value = 'AFN';
   sf.params.OrderStatus.value = 'Shipped';
 
   //making the request to amazon
   client.invoke(sf, function(RESULT){
+
+    console.dir(RESULT);
+
+    if(typeof(RESULT.ListOrdersResponse) !== 'undefined'){
       var i = 0;
 
-      //OUTER LOOP START - looping through all orders in response
-      for(i = 0; i < RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order.length; i++) {
-
-        /* console.log(JSON.stringify(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i])); // returns the first order in response information */
-        
-        //stores order id number so inner loop can get individual products from the order
-        // stores date order was made
-        var orderID = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].AmazonOrderId[0],
-            newDate = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].PurchaseDate[0];
-        /*console.log(orderID);*/
-      
-        // initialize api call for the list of items in a particular order
-        var sf1 = new MWS.Orders.requests.ListOrderItems({'orderID': orderID});
-        sf1.params.AmazonOrderId.value = orderID;
-        client.invoke(sf1, function(RESULT2){
-          var j = 0;
-
-          //INNER LOOP1 START- looping through all items in each order
-          for(j = 0; j < RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem.length; j++) {
-            var newSku = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].SellerSKU[0],
-                newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0],
-                newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
-
-            //creating new product
-            var newProduct = new product({
-              sku: newSku,
-              quantity: newQty,
-              price: newPrice,
-              purchaseDate: newDate,
-              orderID: orderID
-            });
-
-            // have associated user for this product
-            //newProduct.user = request.user;
-
-            //saving new product to local database
-            newProduct.save();
-
-            console.log('SKU: ' + newSku);
-            console.log('qty: ' + newQty);
-            console.log('price: ' + newPrice);
-            console.log('date: ' + newDate);
-            /*RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0] // returns first item of order*/
-          }
-          //INNER LOOP1 END
-        });
+      //CHECK WHERE RESULT IS EMPTY 
+      //RESULT.ErrorResponse.Error[0].Code[0] === 'RequestThrottled'
+      //typeof(RESULT.ListOrdersResponse) === 'undefined'
+      if(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].length === 0) {
+        console.log('There are no items ordered for specified date range.');
       }
-      //OUTER LOOP END
+      else {
+        //OUTER LOOP START - looping through all orders in response
+        for(i = 0; i < RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order.length; i++) {
+
+          /* console.log(JSON.stringify(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i])); // returns the first order in response information */
+          
+          //stores order id number so inner loop can get individual products from the order
+          // stores date order was made
+          var orderID = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].AmazonOrderId[0],
+              newDate = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].PurchaseDate[0];
+          /*console.log(orderID);*/
+
+          productByOrderID(request, response, inDB, orderID, newDate);
+        }
+        //OUTER LOOP END
+      }
+    }
+    else {
+      console.log('\n\nYou\'re being throttled. Please try again later.\n\n');    
+    }
+  });
+}
+
+// Queries database and updates profitMargin and productMargin attributes
+function margins() {
+  // query all documents in DB
+  product.find(function(err, results) {
+    if (err) 
+      console.log(err);
+
+    // cycle through every document and update attributes
+    for(var i = 0; i < results.length; i++) {
+      results[i].profitMargin = (results[i].price - results[i].fbaAmt - results[i].cost)/results[i].price; // profit margin
+      results[i].productMargin = results[i].cost/results[i].price; // product margin
+      results[i].save(function(err) {
+        if (err) 
+          console.log(err);
+      });
+    }
   });
 }
 
 /**
  * List of products
  */
-exports.list = function (req, res) {
-  product.find().sort('-quantity').exec(function (err, products) {
+
+ exports.list = function (req, res) {
+  //if date doesn't exist in our DB, call orders with the dates that are missing
+  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  //date needs to be in a different format 
+  //needs to be yyyy-mm-dd
+
+  console.log(req.user.toTimeFrame);
+
+  // console.log(db.db.product.aggregate([
+  //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
+  //                    { $group: { total: { $sum: '$price' } } },
+  //                    { $sort: { total: -1 } }
+  //                  ]));
+
+
+  product.find().sort('-sku').exec(function (err, products) {
     if (err) {
       console.log("fail");
       return res.status(400).send({
@@ -188,15 +283,12 @@ exports.list = function (req, res) {
       res.json(filtered_products);
     }
   });
-
-  //if date doesn't exist in our DB, call orders with the dates that are missing
-  //orders();
 };
 
 /**
  * product middleware
  */
-exports.productByID = function (req, res, next, id) {
+ exports.productByID = function (req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
