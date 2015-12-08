@@ -108,7 +108,10 @@
           price: newPrice,
           purchaseDate: newDate,
           orderID: orderID,
-          revenue: newPrice * newQty
+          revenue: newPrice * newQty,
+          cost: newPrice * (1/2),
+          profitMargin: (newPrice - 0 - newPrice*(1/2))/newPrice, //eventually substitute 0 ith fbaAmt
+          productMargin: newPrice*(1/2)/newPrice
         });
 
         // have associated user for this product
@@ -292,7 +295,7 @@ function margins() {
  * AKA SKU Report
  */
 exports.listBySku = function (req, res) {
-
+//orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $group: {
@@ -303,12 +306,14 @@ exports.listBySku = function (req, res) {
         fbaAmt: {$sum: '$fbaAmt'},
         fbaPct: {$avg: '$fbaPct'},
         profitMargin: {$avg: '$profitMargin'},
-        productMargin: {$avg: '$productMargin'}
+        productMargin: {$avg: '$productMargin'},
+        cost: {$first: '$cost'}
       }
     },
     {
       $sort: {
-        profitMargin: 1
+        profitMargin: 1,
+        _id: 1
       }
     }
     ], function (err, result) {
@@ -348,6 +353,7 @@ exports.listByBrand = function (req, res, searchBrand) {
     },
     {
       $sort: {
+        profitMargin: 1,
         _id: 1
       }
     }
@@ -388,6 +394,7 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
     },
     {
       $sort: {
+        profitMargin: 1,
         _id: 1
       }
     }

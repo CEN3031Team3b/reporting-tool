@@ -83,17 +83,11 @@
           <label for="threshold" style="color:white" >Threshold</label>
           <input type="text" id="threshold" name="threshold" data-ng-model="user.threshold" placeholder="Threshold">
           <a style="padding-left:25px"></a>
-          <form>
-          <a style="color:white" id="fromTimeFrame" name="fromTimeFrame" data-ng-bind="user.fromTimeFrame" placeholder="From Timeframe"></a>
           <label for="fromTimeFrame" style="color:white"> From:</label>
-          <input type="date" id="fromTimeFrame" name="fromTimeFrame" data-ng-model="user.fromTimeFrame" placeholder="From Date">
-        </form>
+          <input type="text" onfocus="(this.type='data')" id="fromTimeFrame" name="fromTimeFrame" data-ng-model="user.fromTimeFrame" placeholder="fromTimeFrame">
           <a style="padding-left:25px"></a>
-          <form>
-          <a style="color:white" id="toTimeFrame" name="toTimeFrame" data-ng-bind="user.toTimeFrame" placeholder="To Timeframe"></a>
             <label for="toTimeFrame" style="color:white"> To:</label>
-          <input type="date" id="toTimeFrame" name="toTimeFrame" data-ng-model="user.toTimeFrame" placeholder="To Date">
-          </form>
+          <input type="text" onfocus="(this.type='data')" id="toTimeFrame" name="toTimeFrame" data-ng-model="user.toTimeFrame" placeholder="toTimeFrame">
           <a style="padding-left:25px"></a>
           <button type="submit" class="btn btn-primary">Save</button>
 
