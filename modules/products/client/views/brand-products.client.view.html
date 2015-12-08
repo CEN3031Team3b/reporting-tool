@@ -1,6 +1,6 @@
 <div style="padding-top:35px"></div>
 <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
-<section class="cool-background" data-ng-controller="productsController" data-ng-init="find()">
+<section class="cool-background" data-ng-controller="productsController" data-ng-init="findBrand()">
     <h4 class="make-it-bright">Brand-Report</h4>
     <div ng-show="loadInfo" align="middle">
         <div class="throbber-loader">
@@ -22,7 +22,7 @@
                 </tr>
                 <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ x.sku }}</td> <!--put column values here-->
+                    <td>{{ x._id }}</td> <!--put column values here-->
                     <td>{{ x.quantity }}</td>
                     <td>{{ x.revenue }}</td>
                     <td>{{ x.fbaAmt }}</td>

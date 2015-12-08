@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
-<section data-ng-controller="productsController" data-ng-init="find()">
+<section data-ng-controller="productsController" data-ng-init="findSKU()">
   <body>
     <div style="padding-top:35px"></div>
       <div class="container-fluid" class="auto-adjust">
@@ -52,18 +52,18 @@
                                                </tr>
                                                <tr ng-repeat="x in products | limitTo:8">
                                                    <td>{{ $index + 1 }}</td>
-                                                   <td>{{ x.sku }}</td> <!--put column values here-->
+                                                   <td>{{ x._id }}</td> <!--put column values here-->
                                                    <td>{{ x.quantity }}</td>
                                                    <td>{{ x.revenue }}</td>
                                                </tr>
                                            </table>
                                            <a data-ui-sref="products.sku" align="bottom" align="middle">
-                                               <button type="button" class="btn-info active"> Full Report </button>
+                                               <button type="button" class="btn btn-info active"> Full Report </button>
                                            </a>
                                        </div>
                                    </div>
                                </div>
-                               <div ng-show="tab.isSet(2)">
+                               <div ng-show="tab.isSet(2)" data-ng-init="findBrand()">
                                    <div ng-app="myApp" ng-controller="productsController">
                                        <div align="middle">
                                            <table class="table1">
@@ -76,9 +76,9 @@
                                                </tr>
                                                <tr ng-repeat="x in products | limitTo:8">
                                                    <td>{{ $index + 1 }}</td>
-                                                   <td>{{ x.sku }}</td> <!--put column values here-->
+                                                   <td>{{ x._id }}</td> <!--put column values here-->
                                                    <td>{{ x.quantity }}</td>
-                                                   <td>{{ x.price }}</td>
+                                                   <td>{{ x.revenue }}</td>
                                                </tr>
                                            </table>
                                            <a data-ui-sref="products.brand" align="bottom" align="middle">
