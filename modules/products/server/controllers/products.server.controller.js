@@ -255,7 +255,7 @@ function margins() {
 
  exports.list = function (req, res) {
   //if date doesn't exist in our DB, call orders with the dates that are missing
-  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   //date needs to be in a different format 
   //needs to be yyyy-mm-dd
 
@@ -268,7 +268,7 @@ function margins() {
   //                  ]));
 
 
-  product.find().sort('-sku').exec(function (err, products) {
+  product.find().sort('profitMargin').exec(function (err, products) {
     if (err) {
       console.log("fail");
       return res.status(400).send({
