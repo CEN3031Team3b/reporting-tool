@@ -378,7 +378,7 @@ function margins() {
 
   product.find().sort('profitMargin').exec(function (err, products) {
     if (err) {
-      console.log("fail");
+      console.log('fail');
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
@@ -398,7 +398,7 @@ function margins() {
  * AKA SKU Report
  */
 exports.listBySku = function (req, res) {
-//orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $group: {
@@ -426,7 +426,7 @@ exports.listBySku = function (req, res) {
           });
         }
         else {
-          console.dir(result);
+          //console.dir(result);
           res.json(result);
         }
     });
@@ -437,6 +437,7 @@ exports.listBySku = function (req, res) {
  * AKA Brand report
  */
 exports.listByBrand = function (req, res, searchBrand) {
+  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $match: {
@@ -467,7 +468,7 @@ exports.listByBrand = function (req, res, searchBrand) {
           });
         }
         else {
-          console.dir(result);
+          // console.dir(result);
           res.json(result);
         }
     });
@@ -508,7 +509,7 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
           });
         }
         else {
-          console.dir(result);
+          //console.dir(result);
           res.json(result);
         }
     });

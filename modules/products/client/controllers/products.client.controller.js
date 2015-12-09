@@ -11,7 +11,7 @@ angular.module('products').controller('TabController', function(){
       return this.tab === tabName;
     };
   });
-
+//fjdslk
 // products controller
 angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products', '$http',
   function ($scope, $stateParams, $location, Authentication, products, $http) {
@@ -61,15 +61,15 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
 
     //may not need this
     $scope.updateCost = function(productToChange, index) {
-      console.log('im being called');
+      //console.log('im being called');
 
       var elementID ='cost' + index;
       var element = document.getElementById(elementID).value; 
       element = Number(element); 
-      console.log('New cost to be set: ' + element);
+      //console.log('New cost to be set: ' + element);
 
      productToChange.cost = element;
-     console.log('cost set!');
+     //console.log('cost set!');
 
     };
 
@@ -78,7 +78,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     $scope.updateProductProfile = function (x, index, isValid) {
       if (isValid) {
         var productToChange = x;
-        console.log(x);
+        //console.log(x);
         $scope.updateCost(productToChange, index);
 
         var updatedProduct = new products(productToChange);
@@ -87,7 +87,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         $http.post('/api/products/' + updatedProduct._id, updatedProduct)
         .then(function(result) {
           console.log(result);
-          console.log("Success Post"); 
+          //console.log('Success Post'); 
         });    
       }
     };
