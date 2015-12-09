@@ -446,7 +446,7 @@ exports.listByBrand = function (req, res, searchBrand) {
   product.aggregate([
     {
       $match: {
-        brand: searchBrand
+        brand: searchBrand,
         purchaseDate: {$gte: req.user.fromTimeFrame, $lte: req.user.toTimeFrame}
       }
     },
@@ -488,7 +488,7 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
   product.aggregate([
     {
       $match: {
-        brand: searchBrand
+        brand: searchBrand,
         purchaseDate: {$gte: req.user.fromTimeFrame, $lte: req.user.toTimeFrame}
       }
     },
