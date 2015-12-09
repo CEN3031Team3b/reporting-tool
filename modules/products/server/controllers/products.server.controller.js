@@ -98,9 +98,11 @@
       //INNER LOOP1 START- looping through all items in each order
       for(j = 0; j < RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem.length; j++) {
         var newSku = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].SellerSKU[0],
-        newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0],
-        newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
-
+        newPrice,
+        newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0];
+        if( typeof(RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0]) !== 'undefined') {
+          newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
+        }
         //creating new product
         var newProduct = new product({
           sku: newSku,
@@ -120,16 +122,16 @@
         //saving new product to local database
         newProduct.save();
 
-        console.log('SKU: ' + newSku);
-        console.log('qty: ' + newQty);
-        console.log('price: ' + newPrice);
-        console.log('date: ' + newDate);
+        // console.log('SKU: ' + newSku);
+        // console.log('qty: ' + newQty);
+        // console.log('price: ' + newPrice);
+        // console.log('date: ' + newDate);
         /*RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0] // returns first item of order*/
       }
       //INNER LOOP1 END
     }
     else {
-      console.log('\n\nYou\'re being throttled. Please try again later.\n\n');   
+      console.log('You\'re being throttled in ListOrderItems. Please try again later.');   
     }
   });
 }
@@ -139,12 +141,12 @@
  */
  function inDB(num, orderID, newDate){
   if(num === 0) {
-    console.log('\n\nOrder doesn\'t exist\n\n');
+    console.log('Order doesn\'t exist in the database, placing it now.');
     //call to add to db
     listOrderItems(orderID, newDate);
   }
   else {
-    console.log('\n\nOrder already exists\n\n');
+    console.log('Order already exists in the database.');
   }
 }
 
@@ -183,15 +185,88 @@ function changeDate(date){
   return date.getFullYear() + '-' + month + '-' + day;
 }
 
+
+/*
+ *  Makes API call to get next 100 orders
+ */
+ function listNextOrders(request, response, firstNextToken, x){
+
+  var sf2 = new MWS.Orders.requests.ListOrdersByNextToken({'NextToken': firstNextToken});
+  var tokenTracker = 0;
+  var nextToken = firstNextToken;
+  //loop for calling ListOrdersByNextTokenResponse multiple times... requires more than 100 orders.
+  for (tokenTracker = 0; tokenTracker !== -1 && x < 1; x++) {
+    sf2.params.NextToken.value = nextToken;
+    console.log('about to call via next token');
+    console.log(nextToken); 
+    console.log('-------------------');
+    client.invoke(sf2, function(RESULT){
+
+        //console.dir(RESULT);
+
+        if(typeof(RESULT.ListOrdersByNextTokenResponse) !== 'undefined'){
+          var i = 0;
+
+          //CHECK WHERE RESULT IS EMPTY 
+          // console.dir(RESULT.ListOrdersByNextTokenResponse);
+          // console.dir(RESULT.ListOrdersByNextTokenResponse.ListOrdersResult[0]);
+          // console.dir(RESULT.ListOrdersByNextTokenResponse.ListOrdersResult[0].Orders[0]);
+          // console.dir(RESULT.ListOrdersByNextTokenResponse.ListOrdersResult[0].Orders[0].length);
+          if(RESULT.ListOrdersByNextTokenResponse.ListOrdersByNextTokenResult[0].Orders[0].length === 0) {
+            console.log('There are no items ordered for specified date range.');
+          }
+          else {
+
+            //OUTER LOOP START - looping through all orders in response
+            for(i = 0; i < RESULT.ListOrdersByNextTokenResponse.ListOrdersByNextTokenResult[0].Orders[0].Order.length; i++) {
+              
+              //stores order id number so inner loop can get individual products from the order
+              // stores date order was made
+              var orderID = RESULT.ListOrdersByNextTokenResponse.ListOrdersByNextTokenResult[0].Orders[0].Order[i].AmazonOrderId[0],
+                  newDate = RESULT.ListOrdersByNextTokenResponse.ListOrdersByNextTokenResult[0].Orders[0].Order[i].PurchaseDate[0];
+
+              //check if there is a next token
+              //if no nexttoken, break loop and stop querying MWS
+              if(typeof(RESULT.ListOrdersByNextTokenResponse.ListOrdersByNextTokenResult[0].NextToken[0]) === 'undefined') {
+                tokenTracker = -1;
+                console.log('\nThere is no NextToken to continue querying.');
+              }    
+              else {
+                nextToken = RESULT.ListOrdersByNextTokenResponse.ListOrdersByNextTokenResult[0].NextToken[0];
+                tokenTracker = 2;
+              }
+
+              //3rd loop, iterates through every item in a specific order where OrderID = orderID
+              productByOrderID(request, response, inDB, orderID, newDate);
+
+            }  //OUTER LOOP END
+            
+          }
+        }
+
+        else {
+          console.log('\nYou\'re being throttled in the NextToken query. Please try again later.\n');    
+        }
+
+
+
+      });
+
+  }    //for loop ender  
+
+}
+
+
 //Makes Amazon MWS API calls when needed
-function orders(request, response, CreatedAfter, CreatedBefore){
+function orders(request, response, CreatedAfter, CreatedBefore) {
+  var tokenTracker = -1;
   var sf = new MWS.Orders.requests.ListOrders({'marketPlaceId': marketPlaceId});  
 
   //assigning values to ensure we only get amazon information with criteria below
   sf.params.MarketplaceId.value = marketPlaceId;
   var convertedCreatedAfter = changeDate(CreatedAfter),
-      convertedCreatedBefore = changeDate(CreatedBefore);
-
+      convertedCreatedBefore = changeDate(CreatedBefore),
+      nextToken = '';
   sf.params.CreatedAfter.value =  convertedCreatedAfter; //'2014-07-10';
   sf.params.CreatedBefore.value = convertedCreatedBefore; //'2014-07-29';
   sf.params.FulfillmentChannel.value = 'AFN';
@@ -200,7 +275,7 @@ function orders(request, response, CreatedAfter, CreatedBefore){
   //making the request to amazon
   client.invoke(sf, function(RESULT){
 
-    console.dir(RESULT);
+    //console.dir(RESULT);
 
     if(typeof(RESULT.ListOrdersResponse) !== 'undefined'){
       var i = 0;
@@ -215,23 +290,51 @@ function orders(request, response, CreatedAfter, CreatedBefore){
         //OUTER LOOP START - looping through all orders in response
         for(i = 0; i < RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order.length; i++) {
 
-          /* console.log(JSON.stringify(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i])); // returns the first order in response information */
+          /* console.log(JSON.stringify(RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i])); 
+          // returns the first order in response information */
           
           //stores order id number so inner loop can get individual products from the order
-          // stores date order was made
+          //stores date order was made
           var orderID = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].AmazonOrderId[0],
               newDate = RESULT.ListOrdersResponse.ListOrdersResult[0].Orders[0].Order[i].PurchaseDate[0];
-          /*console.log(orderID);*/
+
 
           productByOrderID(request, response, inDB, orderID, newDate);
         }
         //OUTER LOOP END
+
+        //check if there is a next token
+        //if no nextToken, break loop and stop querying MWS
+        if(typeof(RESULT.ListOrdersResponse.ListOrdersResult[0].NextToken[0]) !== 'undefined') {
+            nextToken = RESULT.ListOrdersResponse.ListOrdersResult[0].NextToken[0];
+            console.log('There is a next token');
+            console.log(nextToken);
+            tokenTracker = 2;
+            listNextOrders(request, response, nextToken, 0);
+        }   
+        else {
+            tokenTracker = -1;
+            console.log('\nThere is no NextToken to continue ordering.\n');
+        }
+
       }
     }
     else {
-      console.log('\n\nYou\'re being throttled. Please try again later.\n\n');    
+      console.log('\nYou\'re being throttled. Please try again later.\n');    
     }
+
+
   });
+  
+
+  //first 100 orders are done at this point and the next token is stored to var nextToken
+  //the ListOrdersByNextToken function provided by amazon takes only 1 argument, the NextToken
+  // console.log('attempting to check if tokenTracker === 2');
+  // console.log(tokenTracker);
+  // if (tokenTracker === 2) {
+  //   //listNextOrders(nextToken);    
+  // }
+
 }
 
 // Queries database and updates profitMargin and productMargin attributes
@@ -275,7 +378,7 @@ function margins() {
 
   product.find().sort('profitMargin').exec(function (err, products) {
     if (err) {
-      console.log("fail");
+      console.log('fail');
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
@@ -295,7 +398,7 @@ function margins() {
  * AKA SKU Report
  */
 exports.listBySku = function (req, res) {
-//orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $group: {
@@ -323,7 +426,7 @@ exports.listBySku = function (req, res) {
           });
         }
         else {
-          console.dir(result);
+          //console.dir(result);
           res.json(result);
         }
     });
@@ -334,6 +437,7 @@ exports.listBySku = function (req, res) {
  * AKA Brand report
  */
 exports.listByBrand = function (req, res, searchBrand) {
+  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $match: {
@@ -364,7 +468,7 @@ exports.listByBrand = function (req, res, searchBrand) {
           });
         }
         else {
-          console.dir(result);
+          // console.dir(result);
           res.json(result);
         }
     });
@@ -405,7 +509,7 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
           });
         }
         else {
-          console.dir(result);
+          //console.dir(result);
           res.json(result);
         }
     });
