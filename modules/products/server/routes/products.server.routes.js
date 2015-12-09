@@ -13,15 +13,33 @@ module.exports = function (app) {
     .get(products.list)
     .post(products.create);
 
+  // sku route
+  app.route('/api/sku')
+    .get(products.listBySku);
+
+  // brand route
+  app.route('/api/brands')
+    .get(products.listByBrand);
+
+  // brand by sku route
+  app.route('/api/brand')
+    .get(products.listByBrandAndSku);
+
+  // // makes api call for new timeframe
+  // app.route('/api/mws')
+  //   .get(products.orders);
+
+  // calculate total revenue
+  // app.route('/api/revenue')
+  //   .get(products.calculateTotalRevenue);
+
   // Single product routes
   app.route('/api/products/:productId')
     .get(products.read)
     .put(products.update)
     .delete(products.delete);
 
-  app.route('/api/mws')
-    .get(mws.orders)
-    .post(products.create);
+
 
   // Finish by binding the product middleware
   app.param('productId', products.productByID);

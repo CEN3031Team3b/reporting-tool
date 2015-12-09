@@ -109,7 +109,11 @@
           quantity: newQty,
           price: newPrice,
           purchaseDate: newDate,
-          orderID: orderID
+          orderID: orderID,
+          revenue: newPrice * newQty,
+          cost: newPrice * (1/2),
+          profitMargin: (newPrice - 0 - newPrice*(1/2))/newPrice, //eventually substitute 0 ith fbaAmt
+          productMargin: newPrice*(1/2)/newPrice
         });
 
         // have associated user for this product
@@ -354,14 +358,16 @@ function margins() {
 
 /**
  * List of products
+ * AKA list orders report
  */
+
  exports.list = function (req, res) {
   //if date doesn't exist in our DB, call orders with the dates that are missing
-  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   //date needs to be in a different format 
   //needs to be yyyy-mm-dd
 
-  console.log(req.user.toTimeFrame);
+  //console.log(req.user.toTimeFrame);
 
   // console.log(db.db.product.aggregate([
   //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
@@ -370,16 +376,165 @@ function margins() {
   //                  ]));
 
 
-  product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
+  product.find().sort('profitMargin').exec(function (err, products) {
     if (err) {
+      console.log("fail");
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(products);
+      var filtered_products = products.filter(function (el) {
+        console.log(el.cost);
+        return (el.purchaseDate >= req.user.fromTimeFrame &&
+               el.purchaseDate <= req.user.toTimeFrame);
+      });
+      res.json(filtered_products);
     }
   });
 };
+
+/**
+ * list by sku 
+ * AKA SKU Report
+ */
+exports.listBySku = function (req, res) {
+//orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  product.aggregate([
+    {
+      $group: {
+        _id: '$sku',
+        revenue: {$sum:  '$revenue'},
+        quantity: {$sum: '$quantity'},
+        brand: {$first: '$brand'},
+        fbaAmt: {$sum: '$fbaAmt'},
+        fbaPct: {$avg: '$fbaPct'},
+        profitMargin: {$avg: '$profitMargin'},
+        productMargin: {$avg: '$productMargin'},
+        cost: {$first: '$cost'}
+      }
+    },
+    {
+      $sort: {
+        profitMargin: 1,
+        _id: 1
+      }
+    }
+    ], function (err, result) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        else {
+          console.dir(result);
+          res.json(result);
+        }
+    });
+};
+
+/**
+ * list by brand
+ * AKA Brand report
+ */
+exports.listByBrand = function (req, res, searchBrand) {
+  product.aggregate([
+    {
+      $match: {
+        brand: searchBrand
+      }
+    },
+    {
+      $group: {
+        _id: '$brand',
+        revenue: {$sum:  '$revenue'},
+        quantity: {$sum: '$quantity'},
+        fbaAmt: {$sum: '$fbaAmt'},
+        fbaPct: {$avg: '$fbaPct'},
+        profitMargin: {$avg: '$profitMargin'},
+        productMargin: {$avg: '$productMargin'}
+      }
+    },
+    {
+      $sort: {
+        profitMargin: 1,
+        _id: 1
+      }
+    }
+    ], function (err, result) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        else {
+          console.dir(result);
+          res.json(result);
+        }
+    });
+};
+
+/**
+ * list by brand and sku
+ * AKA click brand on sku report
+ */
+exports.listByBrandAndSku = function (req, res, searchBrand) {
+  product.aggregate([
+    {
+      $match: {
+        brand: searchBrand
+      }
+    },
+    {
+      $group: {
+        _id: '$sku',
+        revenue: {$sum:  '$revenue'},
+        quantity: {$sum: '$quantity'},
+        fbaAmt: {$sum: '$fbaAmt'},
+        fbaPct: {$avg: '$fbaPct'},
+        profitMargin: {$avg: '$profitMargin'},
+        productMargin: {$avg: '$productMargin'}
+      }
+    },
+    {
+      $sort: {
+        profitMargin: 1,
+        _id: 1
+      }
+    }
+    ], function (err, result) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        else {
+          console.dir(result);
+          res.json(result);
+        }
+    });
+};
+
+/**
+ * calculate total revenue
+ * for the dashboard
+ */
+// exports.calculateTotalRevenue = function (req, res, searchBrand) {
+//   product.aggregate([
+//     {
+//       $sum:  '$revenue'
+//     }
+//     ], function (err, result) {
+//         if (err) {
+//           return res.status(400).send({
+//             message: errorHandler.getErrorMessage(err)
+//           });
+//         }
+//         else {
+//           console.dir(result);
+//           res.json(result);
+//         }
+//     });
+// };
 
 /**
  * product middleware
