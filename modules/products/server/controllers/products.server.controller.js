@@ -108,7 +108,10 @@
           price: newPrice,
           purchaseDate: newDate,
           orderID: orderID,
-          revenue: newPrice * newQty
+          revenue: newPrice * newQty,
+          cost: newPrice * (1/2),
+          profitMargin: (newPrice - 0 - newPrice*(1/2))/newPrice, //eventually substitute 0 ith fbaAmt
+          productMargin: newPrice*(1/2)/newPrice
         });
 
         // have associated user for this product
@@ -254,19 +257,35 @@ function margins() {
  * List of products
  * AKA list orders report
  */
+
  exports.list = function (req, res) {
   //if date doesn't exist in our DB, call orders with the dates that are missing
   //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   //date needs to be in a different format 
   //needs to be yyyy-mm-dd
 
-  product.find().sort('-sku').populate('user', 'displayName').exec(function (err, products) {
+  //console.log(req.user.toTimeFrame);
+
+  // console.log(db.db.product.aggregate([
+  //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
+  //                    { $group: { total: { $sum: '$price' } } },
+  //                    { $sort: { total: -1 } }
+  //                  ]));
+
+
+  product.find().sort('profitMargin').exec(function (err, products) {
     if (err) {
+      console.log("fail");
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(products);
+      var filtered_products = products.filter(function (el) {
+        console.log(el.cost);
+        return (el.purchaseDate >= req.user.fromTimeFrame &&
+               el.purchaseDate <= req.user.toTimeFrame);
+      });
+      res.json(filtered_products);
     }
   });
 };
@@ -276,7 +295,7 @@ function margins() {
  * AKA SKU Report
  */
 exports.listBySku = function (req, res) {
-
+//orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $group: {
@@ -287,12 +306,14 @@ exports.listBySku = function (req, res) {
         fbaAmt: {$sum: '$fbaAmt'},
         fbaPct: {$avg: '$fbaPct'},
         profitMargin: {$avg: '$profitMargin'},
-        productMargin: {$avg: '$productMargin'}
+        productMargin: {$avg: '$productMargin'},
+        cost: {$first: '$cost'}
       }
     },
     {
       $sort: {
-        profitMargin: 1
+        profitMargin: 1,
+        _id: 1
       }
     }
     ], function (err, result) {
@@ -332,6 +353,7 @@ exports.listByBrand = function (req, res, searchBrand) {
     },
     {
       $sort: {
+        profitMargin: 1,
         _id: 1
       }
     }
@@ -372,6 +394,7 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
     },
     {
       $sort: {
+        profitMargin: 1,
         _id: 1
       }
     }
