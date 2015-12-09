@@ -398,8 +398,13 @@ function margins() {
  * AKA SKU Report
  */
 exports.listBySku = function (req, res) {
-  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
+    {
+      $match: {
+        purchaseDate: {$gte: req.user.fromTimeFrame, $lte: req.user.toTimeFrame}
+      }
+    },
     {
       $group: {
         _id: '$sku',
@@ -442,6 +447,7 @@ exports.listByBrand = function (req, res, searchBrand) {
     {
       $match: {
         brand: searchBrand
+        purchaseDate: {$gte: req.user.fromTimeFrame, $lte: req.user.toTimeFrame}
       }
     },
     {
@@ -483,6 +489,7 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
     {
       $match: {
         brand: searchBrand
+        purchaseDate: {$gte: req.user.fromTimeFrame, $lte: req.user.toTimeFrame}
       }
     },
     {
@@ -521,6 +528,11 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
  */
 exports.calculateTotalRevenue = function (req, res, searchBrand) {
   product.aggregate([
+    {
+      $match: {
+        purchaseDate: {$gte: req.user.fromTimeFrame, $lte: req.user.toTimeFrame}
+      }
+    },
     {
       $group: {
         _id: '$*',
