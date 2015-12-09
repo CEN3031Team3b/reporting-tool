@@ -227,7 +227,7 @@ function changeDate(date){
 
               //check if there is a next token
               //if no nexttoken, break loop and stop querying MWS
-              if(typeof(RESULT.ListOrdersByNextTokenResponse.ListOrdersByNextTokenResult[0].NextToken[0]) === 'undefined') {
+              if(typeof(RESULT.ListOrdersByNextTokenResponse.ListOrdersByNextTokenResult[0].NextToken) === 'undefined') { // doesn't work when NextToken[0]
                 tokenTracker = -1;
                 console.log('\nThere is no NextToken to continue querying.');
               }    
@@ -305,7 +305,7 @@ function orders(request, response, CreatedAfter, CreatedBefore) {
 
         //check if there is a next token
         //if no nextToken, break loop and stop querying MWS
-        if(typeof(RESULT.ListOrdersResponse.ListOrdersResult[0].NextToken[0]) !== 'undefined') {
+        if(typeof(RESULT.ListOrdersResponse.ListOrdersResult[0].NextToken) !== 'undefined') { // was crashing when NextToken[0]
             nextToken = RESULT.ListOrdersResponse.ListOrdersResult[0].NextToken[0];
             console.log('There is a next token');
             console.log(nextToken);
