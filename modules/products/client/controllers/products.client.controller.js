@@ -49,8 +49,11 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     };
 
     // Update existing product
-    $scope.update = function () {
-      var product = $scope.products;
+    $scope.update = function (isValid) {
+      
+      $scope.products = product;
+      $
+      //console.log(products.cost);
 
       product.$update(function () {
         $location.path('products/' + product._id);
@@ -60,34 +63,34 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     };
 
     //may not need this
-    $scope.updateCost = function(productToChange, index) {
-      console.log('im being called');
+    $scope.updateCost = function(productToChange, index, cost) {
+     // console.log('im being called');
 
-      var elementID ='cost' + index;
-      var element = document.getElementById(elementID).value; 
+      var elementID = index;
+      var element = document.getElementById(elementID); 
       element = Number(element); 
-      console.log('New cost to be set: ' + element);
+      //console.log('New cost to be set: ' + element);
 
      productToChange.cost = element;
-     console.log('cost set!');
+     //console.log('cost set!');
 
     };
 
     
 
-    $scope.updateProductProfile = function (x, index, isValid) {
+    $scope.updateProductProfile = function (x, index, cost, isValid) {
       if (isValid) {
         var productToChange = x;
-        console.log(x);
+        //console.log(x);
         $scope.updateCost(productToChange, index);
 
         var updatedProduct = new products(productToChange);
-        console.log(updatedProduct);
+        //console.log(updatedProduct);
 
         $http.post('/api/products/' + updatedProduct._id, updatedProduct)
         .then(function(result) {
-          console.log(result);
-          console.log("Success Post"); 
+          //console.log(result);
+          //console.log("Success Post"); 
         });    
       }
     };
@@ -115,7 +118,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       $scope.products = products.query(function(){
         $scope.loadInfo = false;
       });
-      console.log($scope.products);
+      //console.log($scope.products);
     };
 
     // Find a list of skus
@@ -124,7 +127,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         $scope.products = response.data;
         $scope.loadInfo = false;
       });
-      console.log($scope.products);
+      //console.log($scope.products);
     };
 
     // Find a list of brands (brand report )
@@ -133,7 +136,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         $scope.products = response.data;
         $scope.loadInfo = false;
       });
-      console.log($scope.products);
+      //console.log($scope.products);
     };
 
     // Find a list of skus for a brand

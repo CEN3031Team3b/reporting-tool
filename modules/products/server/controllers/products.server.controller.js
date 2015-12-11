@@ -120,10 +120,10 @@
         //saving new product to local database
         newProduct.save();
 
-        console.log('SKU: ' + newSku);
-        console.log('qty: ' + newQty);
-        console.log('price: ' + newPrice);
-        console.log('date: ' + newDate);
+        //console.log('SKU: ' + newSku);
+        //console.log('qty: ' + newQty);
+        //console.log('price: ' + newPrice);
+        //console.log('date: ' + newDate);
         /*RESULT.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[0] // returns first item of order*/
       }
       //INNER LOOP1 END
@@ -281,7 +281,7 @@ function margins() {
       });
     } else {
       var filtered_products = products.filter(function (el) {
-        console.log(el.cost);
+        //console.log(el.cost);
         return (el.purchaseDate >= req.user.fromTimeFrame &&
                el.purchaseDate <= req.user.toTimeFrame);
       });
@@ -364,7 +364,7 @@ exports.listByBrand = function (req, res, searchBrand) {
           });
         }
         else {
-          console.dir(result);
+          //console.dir(result);
           res.json(result);
         }
     });
@@ -405,7 +405,7 @@ exports.listByBrandAndSku = function (req, res, searchBrand) {
           });
         }
         else {
-          console.dir(result);
+          //console.dir(result);
           res.json(result);
         }
     });
