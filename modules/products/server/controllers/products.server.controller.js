@@ -54,6 +54,8 @@
   product.purchaseDate = req.body.purchaseDate;
   product.orderID = req.body.orderID;
   product.user = req.user;
+  product.brand = req.body.brand;
+  product.cost = req.body.cost;
 
   product.save(function (err) {
     if (err) {
@@ -200,7 +202,7 @@ function orders(request, response, CreatedAfter, CreatedBefore){
   //making the request to amazon
   client.invoke(sf, function(RESULT){
 
-    console.dir(RESULT);
+    //console.dir(RESULT);
 
     if(typeof(RESULT.ListOrdersResponse) !== 'undefined'){
       var i = 0;
@@ -323,12 +325,11 @@ exports.listBySku = function (req, res) {
           });
         }
         else {
-          console.dir(result);
+          //console.dir(result);
           res.json(result);
         }
     });
 };
-
 /**
  * list by brand
  * AKA Brand report

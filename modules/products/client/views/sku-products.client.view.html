@@ -25,18 +25,13 @@
                 <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
                     <td>{{ x._id }}</td> <!--put column values here-->
-                    <td name="row1Form" ng-dblclick="editorEnabled=!editorEnabled" ng-submit="update(row2Form.$valid)">
-                        <div ng-hide="editorEnabled">
-                            <a ng-click="editorEnabled=!editorEnabled"><span>{{x.brand}}</span></a>
-                        </div>
-                            <div ng-show="editorEnabled" ng-dblclick="editorEnabled=!editorEnabled">
-                                <input type="text" id="brand{{$index}}" step=".01" min="0" ng-model="x.brand" >
-                                <div align="right" style="color:blue" >
-                                    <a ng-click="editorEnabled=!editorEnabled">
-                                        <button type="submit" class="btn-primary">Save</button> 
-                                    </a>
-                                </div>                                
-                            </div>
+                    <td>
+                        <a ng-show="!editing[$index]" href="#/{{x._id}}">{{x.brand}}</a>
+                        <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
+
+                        <input ng-show="editing[$index]" type="text" ng-model="x.brand">
+                        <button ng-show="editing[$index]" ng-click="update($index)">Update</button>
+                        <button ng-show="editing[$index]" ng-click="cancel($index)">Cancel</button>
                     </td>
 
                     <td>{{ x.quantity }}</td>
@@ -45,18 +40,13 @@
                     <td>{{ x.fbaPct }}</td>
                     <td>{{ x.profitMargin }}</td>
                     <td>{{ x.productMargin }}</td>
-                    <td name="row2Form" ng-dblclick="editorEnabled=!editorEnabled" ng-submit="update(row2Form.$valid)">
-                        <div ng-hide="editorEnabled">
-                            <a href="#" ng-click="editorEnabled=!editorEnabled"><span>{{x.cost}}</span></a>
-                        </div>
-                            <div ng-show="editorEnabled" ng-dblclick="editorEnabled=!editorEnabled">
-                                <input type="number" id="cost{{$index}}" step=".01" min="0" ng-model="x.cost" >
-                                <div align="right" style="color:blue" >
-                                    <a ng-click="editorEnabled=!editorEnabled>"
-                                        <button type="submit" class="btn-primary">Save</button> 
-                                    </a>
-                                </div>                                
-                            </div>
+                    <td>
+                        <a ng-show="!editing[$index]" href="#/{{x._id}}">{{x.cost}}</a>
+                        <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
+
+                        <input ng-show="editing[$index]" type="number" ng-model="x.cost">
+                        <button ng-show="editing[$index]" ng-click="update($index)">Update</button>
+                        <button ng-show="editing[$index]" ng-click="cancel($index)">Cancel</button>
                     </td>
                 </tr>
             </table>
