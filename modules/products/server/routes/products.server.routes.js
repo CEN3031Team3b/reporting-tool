@@ -30,8 +30,8 @@ module.exports = function (app) {
   //   .get(products.orders);
 
   // calculate total revenue
-  // app.route('/api/revenue')
-  //   .get(products.calculateTotalRevenue);
+  app.route('/api/revenue')
+    .get(products.calculateTotalRevenue);
 
   // Single product routes
   app.route('/api/products/:productId')

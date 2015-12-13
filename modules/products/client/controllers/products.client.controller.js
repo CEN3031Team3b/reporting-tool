@@ -11,7 +11,7 @@ angular.module('products').controller('TabController', function(){
       return this.tab === tabName;
     };
   });
-
+//fjdslk
 // products controller
 angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products', '$http',
   function ($scope, $stateParams, $location, Authentication, products, $http) {
@@ -48,7 +48,6 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       }
     };
 
-    // Update existing product
     $scope.updateProduct = function (isValid) {
       
       if (isValid) {
@@ -66,6 +65,18 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       }
     };  
 
+    //may not need this
+   //  $scope.updateCost = function(productToChange, index) {
+   //    //console.log('im being called');
+
+   //    var elementID ='cost' + index;
+   //    var element = document.getElementById(elementID).value; 
+   //    element = Number(element); 
+   //    //console.log('New cost to be set: ' + element);
+
+   //   productToChange.cost = element;
+   //   //console.log('cost set!');
+   // };
 
       $scope.editing = [];
       $scope.save = function(){
@@ -82,10 +93,25 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         products.update({id: product._id}, product);
         $scope.editing[index] = false;
       };
-
       $scope.edit = function(index){
         $scope.editing[index] = angular.copy($scope.products[index]);
       };
+    // $scope.updateProductProfile = function (x, index, isValid) {
+    //   if (isValid) {
+    //     var productToChange = x;
+    //     //console.log(x);
+    //     $scope.updateCost(productToChange, index);
+
+    //     var updatedProduct = new products(productToChange);
+    //     console.log(updatedProduct);
+
+    //     $http.post('/api/products/' + updatedProduct._id, updatedProduct)
+    //     .then(function(result) {
+    //       console.log(result);
+    //       //console.log('Success Post'); 
+    //     });    
+    //   }
+    // };
 
       $scope.cancel = function(index){
         $scope.products[index] = angular.copy($scope.editing[index]);
