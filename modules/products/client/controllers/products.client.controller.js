@@ -67,8 +67,8 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
     };  
 
 
-    $scope.editing = [];
-    $scope.save = function(){
+      $scope.editing = [];
+      $scope.save = function(){
         if(!$scope.newProduct || $scope.newProduct.length < 1) return;
         var product = new products({ name: $scope.newProduct, completed: false });
 
@@ -76,21 +76,21 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
           $scope.products.push(product);
           $scope.newProduct = ''; // clear textbox
         });
-      }
-     $scope.update = function(index){
+      };
+      $scope.update = function(index){
         var product = $scope.products[index];
         products.update({id: product._id}, product);
         $scope.editing[index] = false;
-      }
+      };
 
       $scope.edit = function(index){
         $scope.editing[index] = angular.copy($scope.products[index]);
-      }
+      };
 
       $scope.cancel = function(index){
         $scope.products[index] = angular.copy($scope.editing[index]);
         $scope.editing[index] = false;
-      }
+      };
 
 
     $scope.totalDisplayed = 20;
