@@ -43,18 +43,9 @@
 };
 
 /**
- * Update a product
+ * Update a product cost/brand attributes
  */
  exports.update = function (req, res) {
-    // product.update(
-    //     {sku: req.sku},
-    //     {
-    //       $set: {
-    //         cost: req.cost,
-    //         brand: req.brand
-    //       }
-    //     }
-    // )
     var id = req.body.sku;
     var products = req.product;
     products.cost = req.body.cost;
@@ -75,44 +66,6 @@
       }
     });
 };
-
-// router.put('/api/products', function(req, res) {
-//     var db = req.db;
-//     var collection = db.get('products');
-//     var id = req.body._id;
-
-//     if(!req.body) { 
-//         return res.send(400); 
-//     } // 6
-
-//     collection.findById(id, function(e,data){  
-//         if(e) { 
-//             return res.send(500, e); 
-//         } // 1, 2
-
-//         if(!data) { 
-//             return res.send(404); 
-//         } // 3
-
-//         var update = { 
-//             sku = req.body.sku;
-//             quantity = req.body.quantity;
-//             price = req.body.price;
-//             purchaseDate = req.body.purchaseDate;
-//             orderID = req.body.orderID;
-//             user = req.user;
-//             brand = req.body.brand;
-//             cost = req.body.cost; 
-//         }; // 4
-
-//         collection.updateById(id, update, function(err) { // 5
-//             if(err) {
-//                 return res.send(500, err);
-//             }
-
-//         });
-//     });
-// });
 
 /**
  * Delete an product
@@ -414,20 +367,6 @@ function margins() {
  */
 
  exports.list = function (req, res) {
-  //if date doesn't exist in our DB, call orders with the dates that are missing
-  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
-  //date needs to be in a different format 
-  //needs to be yyyy-mm-dd
-
-  //console.log(req.user.toTimeFrame);
-
-  // console.log(db.db.product.aggregate([
-  //                    { $match: { sku: 'Wac-835175-Natural Nude-Size 38 ' } },
-  //                    { $group: { total: { $sum: '$price' } } },
-  //                    { $sort: { total: -1 } }
-  //                  ]));
-
-
   product.find().sort('profitMargin').exec(function (err, products) {
     if (err) {
       console.log('fail');
@@ -450,7 +389,7 @@ function margins() {
  * AKA SKU Report
  */
 exports.listBySku = function (req, res) {
-  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $match: {

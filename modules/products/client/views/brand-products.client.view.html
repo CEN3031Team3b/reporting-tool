@@ -1,9 +1,9 @@
-<div style="padding-top:35px"></div>
+<div style="padding-top:35px"></div>    <!--this view shows the Brand View-->   
 <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
 <section class="cool-background" data-ng-controller="productsController" data-ng-init="findBrand()">
     <h4 class="make-it-bright">Brand-Report</h4>
     <div ng-show="loadInfo" align="middle">
-        <div class="throbber-loader">
+        <div class="throbber-loader"><!--Shows loader-->
             Loading…
         </div>
     </div>
@@ -11,7 +11,7 @@
         <div class="big-table-scroll" align="middle">
             <table class="table1">
                 <tr>
-                    <th>#</th>
+                    <th>#</th>  <!--column names-->
                     <th>BRAND</th>
                     <th>QTY</th>
                     <th>REV</th>
@@ -22,7 +22,7 @@
                 </tr>
                 <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ x._id }}</td> <!--put column values here-->
+                    <td>{{ x._id }}</td> <!--column values-->
                     <td>{{ x.quantity }}</td>
                     <td>{{ x.revenue }}</td>
                     <td>{{ x.fbaAmt }}</td>
@@ -32,7 +32,7 @@
                 </tr>
             </table>
             <h5 valign="bottom" align="middle">
-                <button class="btn btn-info active" ng-click="loadMore()" align="middle">Load more</button>
+                <button class="btn btn-info active" ng-click="loadMore()" align="middle">Load more</button> <!--allows user to see the next 20 products-->
             </h5>
         </div>
     </div>
