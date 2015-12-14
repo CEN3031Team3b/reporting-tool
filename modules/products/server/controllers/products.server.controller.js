@@ -46,27 +46,73 @@
  * Update a product
  */
  exports.update = function (req, res) {
-  var product = req.product;
+    // product.update(
+    //     {sku: req.sku},
+    //     {
+    //       $set: {
+    //         cost: req.cost,
+    //         brand: req.brand
+    //       }
+    //     }
+    // )
+    var id = req.body.sku;
+    var products = req.product;
+    products.cost = req.body.cost;
+    products.brand = req.body.brand;
 
-  product.sku = req.body.sku;
-  product.quantity = req.body.quantity;
-  product.price = req.body.price;
-  product.purchaseDate = req.body.purchaseDate;
-  product.orderID = req.body.orderID;
-  product.user = req.user;
-  product.brand = req.body.brand;
-  product.cost = req.body.cost;
+    // if(!req.body) { 
+    //     return res.send(400); 
+    // } // 6
 
-  product.save(function (err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.json(product);
-    }
-  });
+    product.findAll({sku: id})
+    product.save(function (err) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(products);
+      }
+    });
 };
+
+// router.put('/api/products', function(req, res) {
+//     var db = req.db;
+//     var collection = db.get('products');
+//     var id = req.body._id;
+
+//     if(!req.body) { 
+//         return res.send(400); 
+//     } // 6
+
+//     collection.findById(id, function(e,data){  
+//         if(e) { 
+//             return res.send(500, e); 
+//         } // 1, 2
+
+//         if(!data) { 
+//             return res.send(404); 
+//         } // 3
+
+//         var update = { 
+//             sku = req.body.sku;
+//             quantity = req.body.quantity;
+//             price = req.body.price;
+//             purchaseDate = req.body.purchaseDate;
+//             orderID = req.body.orderID;
+//             user = req.user;
+//             brand = req.body.brand;
+//             cost = req.body.cost; 
+//         }; // 4
+
+//         collection.updateById(id, update, function(err) { // 5
+//             if(err) {
+//                 return res.send(500, err);
+//             }
+
+//         });
+//     });
+// });
 
 /**
  * Delete an product
@@ -569,7 +615,7 @@ exports.calculateTotalRevenue = function (req, res, searchBrand) {
     });
   }
 
-  product.findById(id).populate('user', 'displayName').exec(function (err, product) {
+  product.findById(id).exec(function (err, product) {
     if (err) {
       return next(err);
     } else if (!product) {

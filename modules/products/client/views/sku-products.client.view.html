@@ -26,7 +26,7 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ x._id }}</td> <!--put column values here-->
                     <td>
-                        <a ng-show="!editing[$index]" href="#/{{x._id}}">{{x.brand}}</a>
+                        <a ng-show="!editing[$index]">{{x.brand}}</a>
                         <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
 
                         <input ng-show="editing[$index]" type="text" ng-model="x.brand">
@@ -41,7 +41,7 @@
                     <td>{{ x.profitMargin }}</td>
                     <td>{{ x.productMargin }}</td>
                     <td>
-                        <a ng-show="!editing[$index]" href="#/{{x._id}}">{{x.cost}}</a>
+                        <a ng-show="!editing[$index]">{{x.cost}}</a>
                         <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
 
                         <input ng-show="editing[$index]" type="number" ng-model="x.cost">

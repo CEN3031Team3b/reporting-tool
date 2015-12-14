@@ -89,10 +89,20 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         });
       };
       $scope.update = function(index){
+        console.log('index');
         var product = $scope.products[index];
-        products.update({id: product._id}, product);
+        products.update();
         $scope.editing[index] = false;
       };
+      // $scope.update = function (index) {
+      //   var product = $scope.products[index];
+
+      //   product.$update(function () {
+      //     $location.path('products/' + product.sku);
+      //   }, function (errorResponse) {
+      //     $scope.error = errorResponse.data.message;
+      //   });
+      // };
       $scope.edit = function(index){
         $scope.editing[index] = angular.copy($scope.products[index]);
       };
@@ -150,6 +160,15 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         $scope.loadInfo = false;
       });
       //console.log($scope.products);
+    };
+
+    $scope.totalRevenue = 0;
+    //finds the total revenue
+    $scope.findRevenue = function () {
+      $http({method: 'GET', url: 'api/revenue'}).then(function(response) {
+        $scope.totalRevenue = response.data[0].revenue;
+        $scope.loadInfo = false;
+      });
     };
 
     // Find a list of skus for a brand
