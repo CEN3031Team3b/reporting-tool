@@ -1,17 +1,18 @@
 'use strict';
 
+
 angular.module('products').controller('TabController', function(){
     this.tab = 1;
-
+    //sets the tab for the dashboard view
     this.setTab = function(newValue){
       this.tab = newValue;
     };
-
+    //returns true if the tab is set
     this.isSet = function(tabName){
       return this.tab === tabName;
     };
   });
-//fjdslk
+
 // products controller
 angular.module('products').controller('productsController', ['$scope', '$stateParams', '$location', 'Authentication', 'products', '$http',
   function ($scope, $stateParams, $location, Authentication, products, $http) {
@@ -48,37 +49,9 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       }
     };
 
-    $scope.updateProduct = function (isValid) {
-      
-      if (isValid) {
-        $scope.success = $scope.error = null;
-        var product = new product($scope.products);
-
-        product.$update(function (response) {
-          $scope.success = true;
-          $scope.products = response;
-        }, function (response) {
-          $scope.error = response.data.message;
-        });
-      } else {
-        $scope.submitted = true;
-      }
-    };  
-
-    //may not need this
-   //  $scope.updateCost = function(productToChange, index) {
-   //    //console.log('im being called');
-
-   //    var elementID ='cost' + index;
-   //    var element = document.getElementById(elementID).value; 
-   //    element = Number(element); 
-   //    //console.log('New cost to be set: ' + element);
-
-   //   productToChange.cost = element;
-   //   //console.log('cost set!');
-   // };
-
+      //controls if you are in editing/input mode or not
       $scope.editing = [];
+      //submits
       $scope.save = function(){
         if(!$scope.newProduct || $scope.newProduct.length < 1) return;
         var product = new products({ name: $scope.newProduct, completed: false });
@@ -88,41 +61,21 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
           $scope.newProduct = ''; // clear textbox
         });
       };
+
+      //attempts to update the cost/brand in the backend
       $scope.update = function(index){
         console.log('index');
         var product = $scope.products[index];
         products.update();
         $scope.editing[index] = false;
       };
-      // $scope.update = function (index) {
-      //   var product = $scope.products[index];
 
-      //   product.$update(function () {
-      //     $location.path('products/' + product.sku);
-      //   }, function (errorResponse) {
-      //     $scope.error = errorResponse.data.message;
-      //   });
-      // };
+      //allows user to input a new Brand or Cost value for the product
       $scope.edit = function(index){
         $scope.editing[index] = angular.copy($scope.products[index]);
       };
-    // $scope.updateProductProfile = function (x, index, isValid) {
-    //   if (isValid) {
-    //     var productToChange = x;
-    //     //console.log(x);
-    //     $scope.updateCost(productToChange, index);
 
-    //     var updatedProduct = new products(productToChange);
-    //     console.log(updatedProduct);
-
-    //     $http.post('/api/products/' + updatedProduct._id, updatedProduct)
-    //     .then(function(result) {
-    //       console.log(result);
-    //       //console.log('Success Post'); 
-    //     });    
-    //   }
-    // };
-
+      //allows user to exit the input mode
       $scope.cancel = function(index){
         $scope.products[index] = angular.copy($scope.editing[index]);
         $scope.editing[index] = false;
@@ -130,7 +83,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
 
 
     $scope.totalDisplayed = 20;
-
+    //allows the user to load the next 20 products/brands
     $scope.loadMore = function () {
       $scope.totalDisplayed += 20;  
     };

@@ -1,17 +1,17 @@
-<div style="padding-top:35px"></div>
+<div style="padding-top:35px"></div> <!--this view shows the Sku Report View-->   
 <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
 <section class="cool-background" data-ng-controller="productsController" data-ng-init="findSKU()">
     <h4 class="make-it-bright">Sku-Report</h4>
     <div ng-show="loadInfo" align="middle">
-        <div class="throbber-loader">
+        <div class="throbber-loader"> <!--Shows loader-->
             Loading…
-        </div>
+        </div> 
     </div>
     <div ng-app="myApp" ng-controller="productsController">
         <div class="big-table-scroll" align="middle">
             <table class="table1">
                 <tr style="font:bold">
-                    <th>#</th>
+                    <th>#</th>  <!--column names-->
                     <th>SKU</th>
                     <th>BRAND</th>
                     <th>QTY</th>
@@ -24,8 +24,8 @@
                 </tr>
                 <tr ng-repeat="x in products | limitTo:totalDisplayed">
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ x._id }}</td> <!--put column values here-->
-                    <td>
+                    <td>{{ x._id }}</td> <!--column values-->
+                    <td> <!--Allows updating of the brand-->
                         <a ng-show="!editing[$index]">{{x.brand}}</a>
                         <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
 
@@ -40,7 +40,7 @@
                     <td>{{ x.fbaPct }}</td>
                     <td>{{ x.profitMargin }}</td>
                     <td>{{ x.productMargin }}</td>
-                    <td>
+                    <td>    <!--Allows updating of the cost-->
                         <a ng-show="!editing[$index]">{{x.cost}}</a>
                         <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
 
@@ -51,7 +51,7 @@
                 </tr>
             </table>
             <h5 valign="bottom" align="middle">
-                <button class="btn btn-info active" ng-click="loadMore()" align="middle">Load more</button>
+                <button class="btn btn-info active" ng-click="loadMore()" align="middle">Load more</button> <!--allows user to see the next 20 products-->
             </h5>
         </div>
     </div>
