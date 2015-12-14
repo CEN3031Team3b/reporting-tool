@@ -66,7 +66,7 @@
             <a data-ui-sref="settings.aws">Change AWS Credentials</a>
           </li>
           <li data-ui-sref-active="active">
-            <a data-ui-sref="settings.accounts">Manage Accounts</a>
+            <a data-ui-sref="settings.accounts">Manage Table Preferences</a>
           </li>
           
           <li class="divider"></li>
@@ -84,10 +84,10 @@
           <input type="text" id="threshold" name="threshold" data-ng-model="user.threshold" placeholder="Threshold">
           <a style="padding-left:25px"></a>
           <label for="fromTimeFrame" style="color:white"> From:</label>
-          <input type="date" id="fromTimeFrame" name="fromTimeFrame" data-ng-model="user.fromTimeFrame" placeholder="fromTimeFrame">
+          <input type="text" onfocus="(this.type='date')" id="fromTimeFrame" name="fromTimeFrame" data-ng-model="user.fromTimeFrame" placeholder="fromTimeFrame">
           <a style="padding-left:25px"></a>
             <label for="toTimeFrame" style="color:white"> To:</label>
-          <input type="date" id="toTimeFrame" name="toTimeFrame" data-ng-model="user.toTimeFrame" placeholder="toTimeFrame">
+          <input type="text" onfocus="(this.type='date')" id="toTimeFrame" name="toTimeFrame" data-ng-model="user.toTimeFrame" placeholder="toTimeFrame">
           <a style="padding-left:25px"></a>
           <button type="submit" class="btn btn-primary" onClick="window.location.reload();">Save</button>
 

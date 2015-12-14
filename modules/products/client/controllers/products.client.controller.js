@@ -48,59 +48,85 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       }
     };
 
-    // Update existing product
-    $scope.update = function () {
-      var product = $scope.products;
+    $scope.updateProduct = function (isValid) {
+      
+      if (isValid) {
+        $scope.success = $scope.error = null;
+        var product = new product($scope.products);
 
-      product.$update(function () {
-        $location.path('products/' + product._id);
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
-    };
+        product.$update(function (response) {
+          $scope.success = true;
+          $scope.products = response;
+        }, function (response) {
+          $scope.error = response.data.message;
+        });
+      } else {
+        $scope.submitted = true;
+      }
+    };  
 
     //may not need this
-    $scope.updateCost = function(productToChange, index) {
-      //console.log('im being called');
+   //  $scope.updateCost = function(productToChange, index) {
+   //    //console.log('im being called');
 
-      var elementID ='cost' + index;
-      var element = document.getElementById(elementID).value; 
-      element = Number(element); 
-      //console.log('New cost to be set: ' + element);
+   //    var elementID ='cost' + index;
+   //    var element = document.getElementById(elementID).value; 
+   //    element = Number(element); 
+   //    //console.log('New cost to be set: ' + element);
 
-     productToChange.cost = element;
-     //console.log('cost set!');
+   //   productToChange.cost = element;
+   //   //console.log('cost set!');
+   // };
 
-    };
+      $scope.editing = [];
+      $scope.save = function(){
+        if(!$scope.newProduct || $scope.newProduct.length < 1) return;
+        var product = new products({ name: $scope.newProduct, completed: false });
 
-    
+        product.$save(function(){
+          $scope.products.push(product);
+          $scope.newProduct = ''; // clear textbox
+        });
+      };
+      $scope.update = function(index){
+        console.log('index');
+        var product = $scope.products[index];
+        products.update();
+        $scope.editing[index] = false;
+      };
+      // $scope.update = function (index) {
+      //   var product = $scope.products[index];
 
-    $scope.updateProductProfile = function (x, index, isValid) {
-      if (isValid) {
-        var productToChange = x;
-        //console.log(x);
-        $scope.updateCost(productToChange, index);
+      //   product.$update(function () {
+      //     $location.path('products/' + product.sku);
+      //   }, function (errorResponse) {
+      //     $scope.error = errorResponse.data.message;
+      //   });
+      // };
+      $scope.edit = function(index){
+        $scope.editing[index] = angular.copy($scope.products[index]);
+      };
+    // $scope.updateProductProfile = function (x, index, isValid) {
+    //   if (isValid) {
+    //     var productToChange = x;
+    //     //console.log(x);
+    //     $scope.updateCost(productToChange, index);
 
-        var updatedProduct = new products(productToChange);
-        console.log(updatedProduct);
+    //     var updatedProduct = new products(productToChange);
+    //     console.log(updatedProduct);
 
-        $http.post('/api/products/' + updatedProduct._id, updatedProduct)
-        .then(function(result) {
-          console.log(result);
-          //console.log('Success Post'); 
-        });    
-      }
-    };
-
-    // $scope.update = function () {
-    //   var product = $scope.product;
-    //   updateCost();
-    //   product.update(function () {
-    //     $location.path('products/' + product._id);
-    //   }, function (errorResponse) {
-    //     $scope.error = errorResponse.data.message;
-    //   });
+    //     $http.post('/api/products/' + updatedProduct._id, updatedProduct)
+    //     .then(function(result) {
+    //       console.log(result);
+    //       //console.log('Success Post'); 
+    //     });    
+    //   }
     // };
+
+      $scope.cancel = function(index){
+        $scope.products[index] = angular.copy($scope.editing[index]);
+        $scope.editing[index] = false;
+      };
 
 
     $scope.totalDisplayed = 20;
@@ -115,7 +141,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
       $scope.products = products.query(function(){
         $scope.loadInfo = false;
       });
-      console.log($scope.products);
+      //console.log($scope.products);
     };
 
     // Find a list of skus
@@ -124,7 +150,7 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         $scope.products = response.data;
         $scope.loadInfo = false;
       });
-      console.log($scope.products);
+      //console.log($scope.products);
     };
 
     // Find a list of brands (brand report )
@@ -133,7 +159,16 @@ angular.module('products').controller('productsController', ['$scope', '$statePa
         $scope.products = response.data;
         $scope.loadInfo = false;
       });
-      console.log($scope.products);
+      //console.log($scope.products);
+    };
+
+    $scope.totalRevenue = 0;
+    //finds the total revenue
+    $scope.findRevenue = function () {
+      $http({method: 'GET', url: 'api/revenue'}).then(function(response) {
+        $scope.totalRevenue = response.data[0].revenue;
+        $scope.loadInfo = false;
+      });
     };
 
     // Find a list of skus for a brand

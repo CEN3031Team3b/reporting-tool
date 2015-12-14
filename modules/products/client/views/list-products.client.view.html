@@ -1,14 +1,12 @@
 <link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
-<section data-ng-controller="productsController" data-ng-init="findSKU()">
-  <body>
-    <div style="padding-top:35px"></div>
-      <div class="container-fluid" class="auto-adjust">
+<section>
+  <body>      <div class="container-fluid" class="auto-adjust">
           <div class="container-fluid rectangle-box col-xs-5"> 
               <div class="rectangle-content">
-                  <div><span>
+                  <div data-ng-controller="productsController" data-ng-init="findRevenue()"><span>
                       
                    <h2 class="make-it-bright">Revenue</h2>
-                   <h4 class="make-it-bright">$1,000,000</h4>
+                   <h4 class="make-it-bright">{{ totalRevenue }}</h4>
                    </span></div>
               </div>
           </div> 
@@ -39,7 +37,7 @@
                                   </div>
                                   <br></br>
                               </div>
-                               <div ng-show="tab.isSet(1)">
+                               <div ng-show="tab.isSet(1)" data-ng-controller="productsController" data-ng-init="findSKU()">
                                    <div ng-app="myApp" ng-controller="productsController">
                                        <div align="middle">
                                            <table class="table1">
@@ -63,7 +61,7 @@
                                        </div>
                                    </div>
                                </div>
-                               <div ng-show="tab.isSet(2)" data-ng-click="findBrand()">
+                               <div ng-show="tab.isSet(2)" data-ng-controller="productsController" data-ng-init="findBrand()">
                                    <div ng-app="myApp" ng-controller="productsController">
                                        <div align="middle">
                                            <table class="table1">

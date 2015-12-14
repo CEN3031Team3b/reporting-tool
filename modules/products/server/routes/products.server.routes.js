@@ -10,6 +10,7 @@ var mws = require('../controllers/mws.server.controller');
 module.exports = function (app) {
   // products collection routes
   app.route('/api/products')
+    .put(products.update)
     .get(products.list)
     .post(products.create);
 
