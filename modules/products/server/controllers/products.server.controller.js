@@ -55,7 +55,7 @@
     //     return res.send(400); 
     // } // 6
 
-    product.findAll({sku: id})
+    product.findAll({sku: id});
     product.save(function (err) {
       if (err) {
         return res.status(400).send({
@@ -101,7 +101,7 @@
         var newSku = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].SellerSKU[0],
         newPrice,
         newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0];
-        if( typeof(RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0]) !== 'undefined') {
+        if( typeof(RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount) !== 'undefined') {
           newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
         }
         //creating new product
@@ -406,7 +406,7 @@ exports.listBySku = function (req, res) {
         fbaPct: {$avg: '$fbaPct'},
         profitMargin: {$avg: '$profitMargin'},
         productMargin: {$avg: '$productMargin'},
-        cost: {$first: '$cost'}
+        cost: {$avg: '$cost'}
       }
     },
     {
@@ -431,12 +431,11 @@ exports.listBySku = function (req, res) {
  * list by brand
  * AKA Brand report
  */
-exports.listByBrand = function (req, res, searchBrand) {
+exports.listByBrand = function (req, res) {
   orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $match: {
-        brand: searchBrand,
         purchaseDate: {$gte: req.user.fromTimeFrame, $lte: req.user.toTimeFrame}
       }
     },
@@ -475,7 +474,7 @@ exports.listByBrand = function (req, res, searchBrand) {
  * list by brand and sku
  * AKA click brand on sku report
  */
-exports.listByBrandAndSku = function (req, res, searchBrand) {
+exports.listByBrandAndSku = function (searchBrand, req, res) {
   product.aggregate([
     {
       $match: {
