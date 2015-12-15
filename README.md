@@ -45,12 +45,11 @@ Also note the threshold and time frame input fields near the top of the view.  T
 
 To run the project locally one should clone the repository and run the following commands (with node js and all appropriate mean stack utilities installed)
 
-'''
-npm install
-npm install mws-sdk
-bower update
-grunt
-'''
+<br /> 
+npm install<br /> 
+npm install mws-sdk<br /> 
+bower update<br /> 
+grunt<br /> <br /> 
 
 <b> It is crucial that the user store their credentials in a local.js file located in the /config/env/ directory.</b>
 The program does not currently take credentials from the database but a local js file because up until this point the product was developed for in-house use (see note about not having actual deployment).
