@@ -16,14 +16,14 @@ Developed with the use of:
 
 Landing Page:
 
-[![Landing Page](http://meanjs.org/img/logo-small.png)]
+[![Landing Page](http://i.imgur.com/sxUfVMB.jpg)]
 
 Dashboard:
 	Shows 4 vital informatics to the user upon first logging in.  A small view of the SKU/Brand report, Revenue during the time period saved to the user profile, Inventory (not accurate / functioning), and Return Rate (not accurate / functioning).
 
 	Also note the threshold and time frame input fields near the top of the view.  This saves the time frame to the user's profile in the database.  All data displayed from this point forward will be from the time frame which the user has specified and saved to his profile.
 
-[![Dashboard](http://meanjs.org/img/logo-small.png)]
+[![Dashboard](http://i.imgur.com/1lWrBUQ.jpg)]
 
 
 SKU Report:
@@ -34,12 +34,12 @@ SKU Report:
 Brand Report:
 	This is another level of aggregation where the seller's products are grouped by the brand of the product.  Showing which brands are succeeding and meeting target margins, etc.
 
-[![Brand Report](http://meanjs.org/img/logo-small.png)]
+[![Brand Report](http://i.imgur.com/CK5hLNs.png)]
 
 Account Settings:
 	A simple collection of views which serve multiple functions, such as the view which allows users to enter their amazon credentials which are then stored in the user's model in the database.
 
-[![Account Settings](http://meanjs.org/img/logo-small.png)]
+[![Account Settings](http://i.imgur.com/eVjvWOy.png)]
 
 
 To run the project locally one should clone the repository and run the following commands (with node js and all appropriate mean stack utilities installed)
