@@ -54,3 +54,8 @@ grunt<br /> <br />
 <b> It is crucial that the user store their credentials in a local.js file located in the /config/env/ directory.</b>
 The program does not currently take credentials from the database but a local js file because up until this point the product was developed for in-house use (see note about not having actual deployment).
 
+module.exports = {<br /> 
+  accessKeyId: 'xxxxxxxxxxx', <br /> 
+  secretAccessKey: 'xxxxxxxxxxx', <br /> 
+  merchantId: 'xxxxxxxxxxx'<br /> 
+};<br /> 
