@@ -92,7 +92,7 @@
   var sf1 = new MWS.Orders.requests.ListOrderItems({'orderID': orderID});
   sf1.params.AmazonOrderId.value = orderID;
   client.invoke(sf1, function(RESULT2){
-    if(typeof(RESULT2.ListOrderItemsResponse) !== 'undefined'){
+    if(typeof(RESULT2.ErrorResponse) === 'undefined'){
 
       var j = 0;
 
@@ -101,7 +101,7 @@
         var newSku = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].SellerSKU[0],
         newPrice,
         newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0];
-        if( typeof(RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount) !== 'undefined') {
+        if( typeof(RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice) !== 'undefined') {
           newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
         }
         //creating new product
@@ -136,7 +136,7 @@
       //INNER LOOP1 END
     }
     else {
-      console.log('You\'re being throttled in ListOrderItems. Please try again later.');   
+          console.log('\n\nError in list order items function\nAmazon error\n\t' + RESULT2.ErrorResponse.Error[0].Code[0] + ': ' + RESULT2.ErrorResponse.Error[0].Message[0] + '\n\n');
     }
   });
 }
@@ -209,7 +209,7 @@ function changeDate(date){
 
         //console.dir(RESULT);
 
-        if(typeof(RESULT.ListOrdersByNextTokenResponse) !== 'undefined'){
+        if(typeof(RESULT.ErrorResponse) === 'undefined'){
           var i = 0;
 
           //CHECK WHERE RESULT IS EMPTY 
@@ -250,7 +250,8 @@ function changeDate(date){
         }
 
         else {
-          console.log('\nYou\'re being throttled in the NextToken query. Please try again later.\n');    
+          console.log('\n\nError in next token function\nAmazon error\n\t' + RESULT.ErrorResponse.Error[0].Code[0] + ': ' + RESULT.ErrorResponse.Error[0].Message[0] + '\n\n');
+          //should save nestToken to user and start off from there next time available  
         }
 
 
@@ -282,7 +283,7 @@ function orders(request, response, CreatedAfter, CreatedBefore) {
 
     //console.dir(RESULT);
 
-    if(typeof(RESULT.ListOrdersResponse) !== 'undefined'){
+    if(typeof(RESULT.ErrorResponse) === 'undefined'){
       var i = 0;
 
       //CHECK WHERE RESULT IS EMPTY 
@@ -325,7 +326,7 @@ function orders(request, response, CreatedAfter, CreatedBefore) {
       }
     }
     else {
-      console.log('\nYou\'re being throttled. Please try again later.\n');    
+      console.log('\n\nError in orders function\nAmazon error\n\t' + RESULT.ErrorResponse.Error[0].Code[0] + ': ' + RESULT.ErrorResponse.Error[0].Message[0] + '\n\n');
     }
 
 
@@ -432,7 +433,7 @@ exports.listBySku = function (req, res) {
  * AKA Brand report
  */
 exports.listByBrand = function (req, res) {
-  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $match: {
