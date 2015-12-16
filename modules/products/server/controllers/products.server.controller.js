@@ -389,8 +389,8 @@ function margins() {
  * list by sku 
  * AKA SKU Report
  */
-exports.listBySku = function (req, res) {
-  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+exports.listBySku = function (req, res) { //API orders() call is commented out because you need the private local js file
+  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $match: {
@@ -432,7 +432,7 @@ exports.listBySku = function (req, res) {
  * list by brand
  * AKA Brand report
  */
-exports.listByBrand = function (req, res) {
+exports.listByBrand = function (req, res) { //API orders() call is commented out because you need the private local js file
   //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
