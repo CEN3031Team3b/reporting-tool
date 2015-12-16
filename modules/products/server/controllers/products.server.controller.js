@@ -55,7 +55,7 @@
     //     return res.send(400); 
     // } // 6
 
-    product.findAll({sku: id})
+    product.findAll({sku: id});
     product.save(function (err) {
       if (err) {
         return res.status(400).send({
@@ -92,7 +92,7 @@
   var sf1 = new MWS.Orders.requests.ListOrderItems({'orderID': orderID});
   sf1.params.AmazonOrderId.value = orderID;
   client.invoke(sf1, function(RESULT2){
-    if(typeof(RESULT2.ListOrderItemsResponse) !== 'undefined'){
+    if(typeof(RESULT2.ErrorResponse) === 'undefined'){
 
       var j = 0;
 
@@ -101,7 +101,7 @@
         var newSku = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].SellerSKU[0],
         newPrice,
         newQty = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].QuantityShipped[0];
-        if( typeof(RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0]) !== 'undefined') {
+        if( typeof(RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice) !== 'undefined') {
           newPrice = RESULT2.ListOrderItemsResponse.ListOrderItemsResult[0].OrderItems[0].OrderItem[j].ItemPrice[0].Amount[0];
         }
         //creating new product
@@ -136,7 +136,7 @@
       //INNER LOOP1 END
     }
     else {
-      console.log('You\'re being throttled in ListOrderItems. Please try again later.');   
+          console.log('\n\nError in list order items function\nAmazon error\n\t' + RESULT2.ErrorResponse.Error[0].Code[0] + ': ' + RESULT2.ErrorResponse.Error[0].Message[0] + '\n\n');
     }
   });
 }
@@ -209,7 +209,7 @@ function changeDate(date){
 
         //console.dir(RESULT);
 
-        if(typeof(RESULT.ListOrdersByNextTokenResponse) !== 'undefined'){
+        if(typeof(RESULT.ErrorResponse) === 'undefined'){
           var i = 0;
 
           //CHECK WHERE RESULT IS EMPTY 
@@ -250,7 +250,8 @@ function changeDate(date){
         }
 
         else {
-          console.log('\nYou\'re being throttled in the NextToken query. Please try again later.\n');    
+          console.log('\n\nError in next token function\nAmazon error\n\t' + RESULT.ErrorResponse.Error[0].Code[0] + ': ' + RESULT.ErrorResponse.Error[0].Message[0] + '\n\n');
+          //should save nestToken to user and start off from there next time available  
         }
 
 
@@ -282,7 +283,7 @@ function orders(request, response, CreatedAfter, CreatedBefore) {
 
     //console.dir(RESULT);
 
-    if(typeof(RESULT.ListOrdersResponse) !== 'undefined'){
+    if(typeof(RESULT.ErrorResponse) === 'undefined'){
       var i = 0;
 
       //CHECK WHERE RESULT IS EMPTY 
@@ -325,7 +326,7 @@ function orders(request, response, CreatedAfter, CreatedBefore) {
       }
     }
     else {
-      console.log('\nYou\'re being throttled. Please try again later.\n');    
+      console.log('\n\nError in orders function\nAmazon error\n\t' + RESULT.ErrorResponse.Error[0].Code[0] + ': ' + RESULT.ErrorResponse.Error[0].Message[0] + '\n\n');
     }
 
 
@@ -388,8 +389,8 @@ function margins() {
  * list by sku 
  * AKA SKU Report
  */
-exports.listBySku = function (req, res) {
-  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+exports.listBySku = function (req, res) { //API orders() call is commented out because you need the private local js file
+  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $match: {
@@ -406,7 +407,7 @@ exports.listBySku = function (req, res) {
         fbaPct: {$avg: '$fbaPct'},
         profitMargin: {$avg: '$profitMargin'},
         productMargin: {$avg: '$productMargin'},
-        cost: {$first: '$cost'}
+        cost: {$avg: '$cost'}
       }
     },
     {
@@ -431,12 +432,11 @@ exports.listBySku = function (req, res) {
  * list by brand
  * AKA Brand report
  */
-exports.listByBrand = function (req, res, searchBrand) {
-  orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
+exports.listByBrand = function (req, res) { //API orders() call is commented out because you need the private local js file
+  //orders(req, res, req.user.fromTimeFrame, req.user.toTimeFrame);
   product.aggregate([
     {
       $match: {
-        brand: searchBrand,
         purchaseDate: {$gte: req.user.fromTimeFrame, $lte: req.user.toTimeFrame}
       }
     },
@@ -475,7 +475,7 @@ exports.listByBrand = function (req, res, searchBrand) {
  * list by brand and sku
  * AKA click brand on sku report
  */
-exports.listByBrandAndSku = function (req, res, searchBrand) {
+exports.listByBrandAndSku = function (searchBrand, req, res) {
   product.aggregate([
     {
       $match: {
