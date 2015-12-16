@@ -4,7 +4,7 @@ Website was not deployed for client privacy issues concerning Amazon Marketplace
 
 <b>Developed with the use of:</b>
 
-Amazon MWS-SDK (2013 version)
+Amazon MWS-SDK (2013 version) <br />
 Bootstrap
 
 <b>Landing Page:</b>
