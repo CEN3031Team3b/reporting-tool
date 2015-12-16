@@ -1,0 +1,11 @@
+For our project, there isn't a ton of front end functionality.  Most of our project relies on runnning back end api calls and calculations, so there isn't a ton that can be tested.  Below is a list of tests and their descriptions.
+
+Signin - Tests if a user with proper credentials can sign in
+
+Navigation - Tests whether or not routing is working properly
+
+User tests -  Make sure non-users can't access product views and that it redirects properly
+
+Revenue - Make sure the revenue is loading properly
+
+Database querying - Make sure the user selecting a query from amazon loads properly

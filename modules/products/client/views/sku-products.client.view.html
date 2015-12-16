@@ -42,10 +42,10 @@
                     <td>{{ x.productMargin }}</td>
                     <td>    <!--Allows updating of the cost-->
                         <a ng-show="!editing[$index]">{{x.cost}}</a>
-                        <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
+                        <button id="editcost" ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
 
-                        <input ng-show="editing[$index]" type="number" ng-model="x.cost">
-                        <button ng-show="editing[$index]" ng-click="update($index)">Update</button>
+                        <input id="costinput" ng-show="editing[$index]" type="number" ng-model="x.cost">
+                        <button id="updatecost" ng-show="editing[$index]" ng-click="update($index)">Update</button>
                         <button ng-show="editing[$index]" ng-click="cancel($index)">Cancel</button>
                     </td>
                 </tr>
